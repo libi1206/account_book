@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libi.accountbook.dao.AccAssetsDAO">
+  <resultMap id="BaseResultMap" type="com.libi.accountbook.entity.AccAssets">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="assets_name" jdbcType="VARCHAR" property="assetsName" />
+    <result column="moner" jdbcType="DECIMAL" property="moner" />
+    <result column="note" jdbcType="VARCHAR" property="note" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, assets_name, moner, note, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from acc_assets
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from acc_assets
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccAssets" useGeneratedKeys="true">
+    insert into acc_assets (user_id, assets_name, moner, 
+      note, create_time)
+    values (#{userId,jdbcType=BIGINT}, #{assetsName,jdbcType=VARCHAR}, #{moner,jdbcType=DECIMAL}, 
+      #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccAssets" useGeneratedKeys="true">
+    insert into acc_assets
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="assetsName != null">
+        assets_name,
+      </if>
+      <if test="moner != null">
+        moner,
+      </if>
+      <if test="note != null">
+        note,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="assetsName != null">
+        #{assetsName,jdbcType=VARCHAR},
+      </if>
+      <if test="moner != null">
+        #{moner,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.libi.accountbook.entity.AccAssets">
+    update acc_assets
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="assetsName != null">
+        assets_name = #{assetsName,jdbcType=VARCHAR},
+      </if>
+      <if test="moner != null">
+        moner = #{moner,jdbcType=DECIMAL},
+      </if>
+      <if test="note != null">
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.libi.accountbook.entity.AccAssets">
+    update acc_assets
+    set user_id = #{userId,jdbcType=BIGINT},
+      assets_name = #{assetsName,jdbcType=VARCHAR},
+      moner = #{moner,jdbcType=DECIMAL},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

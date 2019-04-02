@@ -1,0 +1,43 @@
+#配置Dubbo相关配置:
+dubbo:
+  application:
+    name: account-book-service
+  registry:
+    address: zookeeper://192.168.3.203:2181
+  protocol:
+    name: dubbo
+    port: 20881
+  monitor:
+    protocol: registry
+
+#配置Mybatis的信息
+mybatis:
+  configuration:
+    cache-enabled: true
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.libi.accountbook.entity
+
+spring:
+  #配置DataSource
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/money2?userSSL=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT
+    druid:
+      initial-size: 8
+      min-idle: 5
+  #配置Redis
+  redis:
+    host: 192.168.3.203
+    port: 6379
+    database: 0
+
+#配置PageHelper
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

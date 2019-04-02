@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AccUserDAO extends MyBatisBaseDao<AccUser, Long> {
+    public AccUser selectUserByUserName(String userName);
+
+    public AccUser selectUserByPhone(String phone);
 }

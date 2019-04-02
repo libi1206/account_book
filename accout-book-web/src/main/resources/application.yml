@@ -1,2 +1,10 @@
 server:
-  port: 8080
+  port: 8081
+# Dubbo的配置
+dubbo:
+  application:
+    name: account-book-web
+  registry:
+    address: zookeeper://192.168.3.203:2181
+  monitor:
+    protocol: registry

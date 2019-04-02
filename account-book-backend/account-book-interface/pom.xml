@@ -11,5 +11,12 @@
 
     <artifactId>account-book-interface</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.libi</groupId>
+            <artifactId>account-book-pojo</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

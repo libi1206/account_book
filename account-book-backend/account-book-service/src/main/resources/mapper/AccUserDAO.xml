@@ -130,4 +130,13 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectUserByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from acc_user where phone = #{phone}
+  </select>
+  <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from acc_user where user_name = #{userName}
+  </select>
+
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.libi.accountbook.dao;
 
 import com.libi.accountbook.entity.AccAccount;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 /**

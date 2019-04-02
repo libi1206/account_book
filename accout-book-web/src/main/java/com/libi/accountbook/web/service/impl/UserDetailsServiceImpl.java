@@ -18,12 +18,18 @@ import java.util.List;
  */
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
+    private static final String PHONE_REGEX = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
     @Reference
     private UserService userService;
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        AccUser user = userService.selectUserByUserName(userName);
-        return new User(userName,user.getPassword(),handleAuthority(user.getAuthority()));
+        AccUser sysUser = null;
+        if (userName.matches(PHONE_REGEX)) {
+            sysUser = userService.selectUserByPhone(userName);
+        } else {
+            sysUser = userService.selectUserByUserName(userName);
+        }
+        return new User(sysUser.getUserName(), sysUser.getPassword(), handleAuthority(sysUser.getAuthority()));
     }
 
     /**

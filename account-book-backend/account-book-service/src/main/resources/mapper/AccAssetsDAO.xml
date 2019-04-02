@@ -8,9 +8,16 @@
     <result column="moner" jdbcType="DECIMAL" property="moner" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="one_way" jdbcType="BINARY" property="oneWay" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.libi.accountbook.entity.AccAssets">
+    <result column="one_way" jdbcType="BINARY" property="oneWay" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, assets_name, moner, note, create_time
+    id, user_id, assets_name, moner, note, create_time, one_way
+  </sql>
+  <sql id="Blob_Column_List">
+    one_way
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -24,9 +31,11 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccAssets" useGeneratedKeys="true">
     insert into acc_assets (user_id, assets_name, moner, 
-      note, create_time)
+      note, create_time, one_way
+      )
     values (#{userId,jdbcType=BIGINT}, #{assetsName,jdbcType=VARCHAR}, #{moner,jdbcType=DECIMAL}, 
-      #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
+      #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{oneWay,jdbcType=BINARY}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccAssets" useGeneratedKeys="true">
     insert into acc_assets
@@ -46,6 +55,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="oneWay != null">
+        one_way,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -62,6 +74,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="oneWay != null">
+        #{oneWay,jdbcType=BINARY},
       </if>
     </trim>
   </insert>
@@ -83,7 +98,20 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
+      <if test="oneWay != null">
+        one_way = #{oneWay,jdbcType=BINARY},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.libi.accountbook.entity.AccAssets">
+    update acc_assets
+    set user_id = #{userId,jdbcType=BIGINT},
+      assets_name = #{assetsName,jdbcType=VARCHAR},
+      moner = #{moner,jdbcType=DECIMAL},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      one_way = #{oneWay,jdbcType=BINARY}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.libi.accountbook.entity.AccAssets">
@@ -95,4 +123,8 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectAllInUser" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from acc_assets  where user_id = #{userId,jdbcType=BIGINT}
+  </select>
 </mapper>

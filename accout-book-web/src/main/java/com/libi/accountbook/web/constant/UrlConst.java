@@ -20,6 +20,9 @@ public class UrlConst {
     /**注册URL*/
     public static final String REGISTER_URL = "/register";
 
+    /**测试用URL*/
+    public static final String TEST_URL = "/test";
+
     /**其他API的根URI*/
     public static final String USER_ROOT = "/user";
     public static final String ASSETS_ROOT = "/assets";

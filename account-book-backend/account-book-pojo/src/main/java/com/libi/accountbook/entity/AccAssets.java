@@ -1,6 +1,9 @@
 package com.libi.accountbook.entity;
 
+import com.libi.accountbook.dto.AssetsDto;
+
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * acc_assets
@@ -13,13 +16,27 @@ public class AccAssets implements Serializable {
 
     private String assetsName;
 
-    private Long moner;
+    private Double moner;
 
     private String note;
 
     private Long createTime;
 
+    private Boolean oneWay;
+
     private static final long serialVersionUID = 1L;
+
+    public AccAssets(AssetsDto assetsDto) {
+        setId(assetsDto.getId());
+        setAssetsName(assetsDto.getAssetsName());
+        setNote(assetsDto.getNote());
+        setMoner(assetsDto.getMoner());
+        setOneWay(assetsDto.getOneWay());
+    }
+
+    public AccAssets() {
+
+    }
 
     public Long getId() {
         return id;
@@ -45,11 +62,11 @@ public class AccAssets implements Serializable {
         this.assetsName = assetsName;
     }
 
-    public Long getMoner() {
+    public Double getMoner() {
         return moner;
     }
 
-    public void setMoner(Long moner) {
+    public void setMoner(Double moner) {
         this.moner = moner;
     }
 
@@ -67,6 +84,14 @@ public class AccAssets implements Serializable {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Boolean getOneWay() {
+        return oneWay;
+    }
+
+    public void setOneWay(Boolean oneWay) {
+        this.oneWay = oneWay;
     }
 
     @Override
@@ -99,6 +124,7 @@ public class AccAssets implements Serializable {
         result = prime * result + ((getMoner() == null) ? 0 : getMoner().hashCode());
         result = prime * result + ((getNote() == null) ? 0 : getNote().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getOneWay()==null)? 0 : getOneWay().hashCode());
         return result;
     }
 
@@ -114,6 +140,7 @@ public class AccAssets implements Serializable {
         sb.append(", moner=").append(moner);
         sb.append(", note=").append(note);
         sb.append(", createTime=").append(createTime);
+        sb.append(", oneWay=").append(oneWay);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

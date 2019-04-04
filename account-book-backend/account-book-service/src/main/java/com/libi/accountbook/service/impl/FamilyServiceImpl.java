@@ -32,7 +32,7 @@ public class FamilyServiceImpl implements FamilyService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public AccFamily createNewFamilyAndAdd(FamilyDto familyDto, Long id) {
+    public AccFamily insert(FamilyDto familyDto, Long id) {
         AccFamily family = new AccFamily(familyDto);
         family.setCreateTime(System.currentTimeMillis());
         //创建家庭
@@ -46,20 +46,20 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public AccFamily updateFamily(FamilyDto familyDto) {
+    public AccFamily update(FamilyDto familyDto) {
         AccFamily family = new AccFamily(familyDto);
         accFamilyDAO.updateByPrimaryKeySelective(family);
         return accFamilyDAO.selectByPrimaryKey(familyDto.getId());
     }
 
     @Override
-    public AccFamily selectFamilyById(Long id) {
+    public AccFamily selectById(Long id) {
         return accFamilyDAO.selectByPrimaryKey(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<AccFamily> selectAllFamilyInUser(Long userId) {
+    public List<AccFamily> selectAll(Long userId) {
         return accFamilyDAO.selectAllFamilyByUser(userId);
     }
 
@@ -90,6 +90,4 @@ public class FamilyServiceImpl implements FamilyService {
         familyMappingDAO.deleteByPrimaryKey(key);
         return accFamilyDAO.selectByPrimaryKey(familyId);
     }
-
-
 }

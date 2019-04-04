@@ -20,7 +20,7 @@ public class AssetsServiceImpl implements AssetsService {
     private AccAssetsDAO accAssetsDAO;
 
     @Override
-    public AccAssets insertAssets(AssetsDto assetsDto, Long userId) {
+    public AccAssets insert(AssetsDto assetsDto, Long userId) {
         AccAssets accAssets = new AccAssets(assetsDto);
         accAssets.setCreateTime(System.currentTimeMillis());
         accAssets.setUserId(userId);
@@ -29,19 +29,19 @@ public class AssetsServiceImpl implements AssetsService {
     }
 
     @Override
-    public AccAssets updateAssets(AssetsDto assetsDto) {
+    public AccAssets update(AssetsDto assetsDto) {
         AccAssets accAssets = new AccAssets(assetsDto);
         accAssetsDAO.updateByPrimaryKeySelective(accAssets);
         return accAssetsDAO.selectByPrimaryKey(assetsDto.getId());
     }
 
     @Override
-    public AccAssets getAssetsById(Long assetId) {
+    public AccAssets selectById(Long assetId) {
         return accAssetsDAO.selectByPrimaryKey(assetId);
     }
 
     @Override
-    public List<AccAssets> getAll(Long userId) {
+    public List<AccAssets> selectAll(Long userId) {
         return accAssetsDAO.selectAllInUser(userId);
     }
 }

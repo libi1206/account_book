@@ -22,21 +22,21 @@ public class AssetsController extends BaseController implements BaseAttrControll
     @Override
     @PostMapping("/create")
     public ResponseDto create(AssetsDto assetsDto) {
-        AccAssets assets = assetsService.insertAssets(assetsDto,getLoginUser().getId());
+        AccAssets assets = assetsService.insert(assetsDto,getLoginUser().getId());
         return new ResponseDto(0, "创建成功", assets);
     }
 
     @Override
     @PostMapping("/update")
     public ResponseDto update(AssetsDto assetsDto) {
-        AccAssets assets = assetsService.updateAssets(assetsDto);
+        AccAssets assets = assetsService.update(assetsDto);
         return new ResponseDto(0, "修改成功", assets);
     }
 
     @Override
     @GetMapping("/getAll")
     public ResponseDto getAll() {
-        return new ResponseDto(0,"查询成功",assetsService.getAll(getLoginUser().getId()));
+        return new ResponseDto(0,"查询成功",assetsService.selectAll(getLoginUser().getId()));
     }
 
 }

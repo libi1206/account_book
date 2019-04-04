@@ -1,17 +1,15 @@
 package com.libi.accountbook.web.api;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.libi.accountbook.dto.AssetsDto;
 import com.libi.accountbook.dto.FamilyDto;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.entity.AccFamily;
 import com.libi.accountbook.service.FamilyService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import static com.libi.accountbook.web.constant.UrlConst.*;
+import static com.libi.accountbook.web.constant.UrlConst.FAMILY_ROOT;
 /**
  * @author libi
  */
@@ -24,21 +22,21 @@ public class FamilyController extends BaseController implements BaseAttrControll
     @Override
     @PostMapping("/create")
     public ResponseDto create(FamilyDto familyDto) {
-        AccFamily family = familyService.createNewFamilyAndAdd(familyDto, getLoginUser().getId());
+        AccFamily family = familyService.insert(familyDto, getLoginUser().getId());
         return new ResponseDto(0, "创建且加入成功", family);
     }
 
     @Override
     @PostMapping("/update")
     public ResponseDto update(FamilyDto familyDto) {
-        AccFamily family = familyService.updateFamily(familyDto);
+        AccFamily family = familyService.update(familyDto);
         return new ResponseDto(0, "修改成功", family);
     }
 
     @Override
     @GetMapping("/getAll")
     public ResponseDto getAll() {
-        return new ResponseDto(0,"查询成功",familyService.selectAllFamilyInUser(getLoginUser().getId()));
+        return new ResponseDto(0,"查询成功",familyService.selectAll(getLoginUser().getId()));
     }
 
     /**

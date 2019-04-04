@@ -4,21 +4,14 @@ import com.libi.accountbook.dto.FamilyDto;
 import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.entity.AccFamily;
 import com.libi.accountbook.entity.AccUser;
+import com.libi.accountbook.service.base.BaseAttrService;
 
 import java.util.List;
 
 /**
  * @author libi
  */
-public interface FamilyService {
-
-    AccFamily createNewFamilyAndAdd(FamilyDto familyDto, Long id);
-
-    AccFamily updateFamily(FamilyDto familyDto);
-
-    AccFamily selectFamilyById(Long id);
-
-    List<AccFamily> selectAllFamilyInUser(Long userId);
+public interface FamilyService extends BaseAttrService<FamilyDto,AccFamily> {
 
     AccFamily joinFamily(Long familyId, Long useId);
 

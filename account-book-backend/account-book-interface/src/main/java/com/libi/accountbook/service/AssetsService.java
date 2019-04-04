@@ -9,9 +9,9 @@ import java.util.List;
  * @author libi
  */
 public interface AssetsService {
-    boolean insertAssets(AssetsDto assetsDto, Long userId);
+    AccAssets insertAssets(AssetsDto assetsDto, Long userId);
 
-    boolean updateAssets(AssetsDto assetsDto);
+    AccAssets updateAssets(AssetsDto assetsDto);
 
     AccAssets getAssetsById(Long assetId);
 

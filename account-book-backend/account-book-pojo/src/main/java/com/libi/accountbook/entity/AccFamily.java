@@ -1,5 +1,7 @@
 package com.libi.accountbook.entity;
 
+import com.libi.accountbook.dto.FamilyDto;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,16 @@ public class AccFamily implements Serializable {
     private Long createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public AccFamily(FamilyDto familyDto) {
+        setId(familyDto.getId());
+        setFamilyName(familyDto.getFamilyName());
+        setNote(familyDto.getNote());
+    }
+
+    public AccFamily() {
+
+    }
 
     public Long getId() {
         return id;

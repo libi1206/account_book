@@ -31,7 +31,7 @@ public class LoginController extends BaseController {
     /**登陆成功*/
     @RequestMapping(LOGIN_SUCCESS_URL)
     public ResponseDto loginSuccess() {
-        return new ResponseDto(0,"登陆成功",null);
+        return new ResponseDto(0,"登陆成功",getLoginUser());
     }
 
     /**登陆失败*/

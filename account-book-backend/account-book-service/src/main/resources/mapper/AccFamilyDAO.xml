@@ -1,76 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.libi.accountbook.dao.AccFamilyDAO">
-  <resultMap id="BaseResultMap" type="com.libi.accountbook.entity.AccFamily">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
-    <result column="note" jdbcType="VARCHAR" property="note" />
-    <result column="create_time" jdbcType="BIGINT" property="createTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
+    <resultMap id="BaseResultMap" type="com.libi.accountbook.entity.AccFamily">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="family_name" jdbcType="VARCHAR" property="familyName"/>
+        <result column="note" jdbcType="VARCHAR" property="note"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, family_name, note, create_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from acc_family
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from acc_family
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from acc_family
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccFamily" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccFamily"
+            useGeneratedKeys="true">
     insert into acc_family (family_name, note, create_time
       )
     values (#{familyName,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccFamily" useGeneratedKeys="true">
-    insert into acc_family
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="familyName != null">
-        family_name,
-      </if>
-      <if test="note != null">
-        note,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="familyName != null">
-        #{familyName,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.libi.accountbook.entity.AccFamily">
-    update acc_family
-    <set>
-      <if test="familyName != null">
-        family_name = #{familyName,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        note = #{note,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=BIGINT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.libi.accountbook.entity.AccFamily">
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccFamily"
+            useGeneratedKeys="true">
+        insert into acc_family
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="familyName != null">
+                family_name,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="familyName != null">
+                #{familyName,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.libi.accountbook.entity.AccFamily">
+        update acc_family
+        <set>
+            <if test="familyName != null">
+                family_name = #{familyName,jdbcType=VARCHAR},
+            </if>
+            <if test="note != null">
+                note = #{note,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.libi.accountbook.entity.AccFamily">
     update acc_family
     set family_name = #{familyName,jdbcType=VARCHAR},
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+    <select id="selectAllFamilyByUser" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from acc_family where id in (
+        select family_id from family_mapping where user_id = #{userId}
+        )
+    </select>
+
+
 </mapper>

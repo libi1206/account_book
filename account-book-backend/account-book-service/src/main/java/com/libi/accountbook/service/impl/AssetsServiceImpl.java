@@ -20,17 +20,19 @@ public class AssetsServiceImpl implements AssetsService {
     private AccAssetsDAO accAssetsDAO;
 
     @Override
-    public boolean insertAssets(AssetsDto assetsDto, Long userId) {
+    public AccAssets insertAssets(AssetsDto assetsDto, Long userId) {
         AccAssets accAssets = new AccAssets(assetsDto);
         accAssets.setCreateTime(System.currentTimeMillis());
         accAssets.setUserId(userId);
-        return accAssetsDAO.insertSelective(accAssets) == 1;
+        accAssetsDAO.insertSelective(accAssets);
+        return accAssets;
     }
 
     @Override
-    public boolean updateAssets(AssetsDto assetsDto) {
+    public AccAssets updateAssets(AssetsDto assetsDto) {
         AccAssets accAssets = new AccAssets(assetsDto);
-        return accAssetsDAO.updateByPrimaryKeySelective(accAssets) == 1;
+        accAssetsDAO.updateByPrimaryKeySelective(accAssets);
+        return accAssetsDAO.selectByPrimaryKey(assetsDto.getId());
     }
 
     @Override

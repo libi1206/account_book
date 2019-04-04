@@ -11,6 +11,4 @@ public interface BaseAttrController<Dto> {
     ResponseDto update(Dto dto);
 
     ResponseDto getAll();
-
-    ResponseDto delete(Long id);
 }

@@ -6,6 +6,7 @@
     <modules>
         <module>accout-book-web</module>
         <module>account-book-backend</module>
+        <module>account-book-file-system</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

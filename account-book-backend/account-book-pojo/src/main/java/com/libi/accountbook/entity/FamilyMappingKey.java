@@ -7,26 +7,26 @@ import java.io.Serializable;
  * @author 
  */
 public class FamilyMappingKey implements Serializable {
-    private Long id;
+    private Long familyId;
 
-    private Long accId;
+    private Long userId;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
-        return id;
+    public Long getFamilyId() {
+        return familyId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFamilyId(Long familyId) {
+        this.familyId = familyId;
     }
 
-    public Long getAccId() {
-        return accId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setAccId(Long accId) {
-        this.accId = accId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -41,16 +41,16 @@ public class FamilyMappingKey implements Serializable {
             return false;
         }
         FamilyMappingKey other = (FamilyMappingKey) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getAccId() == null ? other.getAccId() == null : this.getAccId().equals(other.getAccId()));
+        return (this.getFamilyId() == null ? other.getFamilyId() == null : this.getFamilyId().equals(other.getFamilyId()))
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()));
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getAccId() == null) ? 0 : getAccId().hashCode());
+        result = prime * result + ((getFamilyId() == null) ? 0 : getFamilyId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         return result;
     }
 
@@ -60,8 +60,8 @@ public class FamilyMappingKey implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", accId=").append(accId);
+        sb.append(", familyId=").append(familyId);
+        sb.append(", userId=").append(userId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

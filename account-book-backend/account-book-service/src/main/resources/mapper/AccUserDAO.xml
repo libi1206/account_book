@@ -137,6 +137,12 @@
   <select id="selectUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from acc_user where user_name = #{userName}
   </select>
-
+  <select id="selectAllUserByFamily" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from acc_user where id in (
+    select user_id from family_mapping where family_id = #{familyId}
+    )
+  </select>
 
 </mapper>

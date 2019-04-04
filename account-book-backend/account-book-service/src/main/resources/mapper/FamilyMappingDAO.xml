@@ -2,34 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.libi.accountbook.dao.FamilyMappingDAO">
   <resultMap id="BaseResultMap" type="com.libi.accountbook.entity.FamilyMappingKey">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <id column="acc_id" jdbcType="BIGINT" property="accId" />
+    <id column="family_id" jdbcType="BIGINT" property="familyId" />
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="com.libi.accountbook.entity.FamilyMappingKey">
     delete from family_mapping
-    where id = #{id,jdbcType=BIGINT}
-      and acc_id = #{accId,jdbcType=BIGINT}
+    where family_id = #{familyId,jdbcType=BIGINT}
+      and user_id = #{userId,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.libi.accountbook.entity.FamilyMappingKey">
-    insert into family_mapping (id, acc_id)
-    values (#{id,jdbcType=BIGINT}, #{accId,jdbcType=BIGINT})
+    insert into family_mapping (family_id, user_id)
+    values (#{familyId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.libi.accountbook.entity.FamilyMappingKey">
     insert into family_mapping
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="familyId != null">
+        family_id,
       </if>
-      <if test="accId != null">
-        acc_id,
+      <if test="userId != null">
+        user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
+      <if test="familyId != null">
+        #{familyId,jdbcType=BIGINT},
       </if>
-      <if test="accId != null">
-        #{accId,jdbcType=BIGINT},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>

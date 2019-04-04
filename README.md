@@ -6,7 +6,6 @@
 	    + |--account-book-interface：保存service接口
 	    + |--account-book-pojo：保存所有的实体类和dto类
 	    + |--account-book-service：业务的真正实现，一个dubbo服务提供者
-	+ |--account-book-file-system：文件系统，实现用户上传文件和下载，web工程
 	+ |--account-book-web：表现层工程，web工程
 
 ### 2. 预计使用技术

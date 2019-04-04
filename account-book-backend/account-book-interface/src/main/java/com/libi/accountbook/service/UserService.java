@@ -1,5 +1,6 @@
 package com.libi.accountbook.service;
 
+import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.entity.AccUser;
 
 /**
@@ -14,4 +15,6 @@ public interface UserService {
     AccUser selectUserByPhone(String phone);
 
     boolean insertUser(AccUser accUser);
+
+    UserDto updateById(UserDto userDto);
 }

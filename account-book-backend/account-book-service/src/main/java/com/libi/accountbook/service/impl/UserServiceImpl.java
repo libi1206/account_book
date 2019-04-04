@@ -2,6 +2,7 @@ package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.libi.accountbook.dao.AccUserDAO;
+import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.entity.AccUser;
 import com.libi.accountbook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,12 @@ public class UserServiceImpl implements UserService {
         accUser.setCreateTime(System.currentTimeMillis());
         return accUserDAO.insertSelective(accUser)==1;
     }
+
+    @Override
+    public UserDto updateById(UserDto userDto) {
+        AccUser user = new AccUser(userDto);
+        accUserDAO.updateByPrimaryKeySelective(user);
+        return new UserDto(accUserDAO.selectByPrimaryKey(user.getId()));
+    }
+
 }

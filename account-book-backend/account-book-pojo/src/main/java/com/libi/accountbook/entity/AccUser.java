@@ -1,5 +1,7 @@
 package com.libi.accountbook.entity;
 
+import com.libi.accountbook.dto.UserDto;
+
 import java.io.Serializable;
 
 /**
@@ -26,6 +28,19 @@ public class AccUser implements Serializable {
     private Long createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public AccUser(UserDto userDto) {
+        setId(userDto.getId());
+        setAuthority(userDto.getAuthority());
+        setUserName(userDto.getUserName());
+        setSex(userDto.getSex());
+        setNeckName(userDto.getNeckName());
+        setHeadImg(userDto.getHeadImg());
+        setPhone(userDto.getPhone());
+    }
+
+    public AccUser() {
+    }
 
     public Long getId() {
         return id;

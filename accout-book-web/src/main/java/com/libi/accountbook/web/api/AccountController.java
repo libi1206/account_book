@@ -25,18 +25,18 @@ public class AccountController extends BaseController implements BaseAttrControl
     @PostMapping("/create")
     @Override
     public ResponseDto create(AccAccount accAccount) {
-        return new ResponseDto(0,"创建成功",accountService.insert(accAccount,getLoginUser().getId()));
+        return new ResponseDto(0, "创建成功", accountService.insert(accAccount, getLoginUser().getId()));
     }
 
     @PostMapping("/update")
     @Override
     public ResponseDto update(AccAccount accAccount) {
-        return new ResponseDto(0,"修改成功",accountService.update(accAccount));
+        return new ResponseDto(0, "修改成功", accountService.update(accAccount));
     }
 
     @GetMapping("/getAll")
     @Override
     public ResponseDto getAll() {
-        return new ResponseDto(0,"查询成功",accountService.selectAll(getLoginUser().getId()));
+        return new ResponseDto(0, "查询成功", accountService.selectAll(getLoginUser().getId()));
     }
 }

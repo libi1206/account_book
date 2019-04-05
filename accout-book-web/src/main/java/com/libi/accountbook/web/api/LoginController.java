@@ -54,10 +54,4 @@ public class LoginController extends BaseController {
         userService.insertUser(user);
         return new ResponseDto(0, "注册成功", new UserDto(userService.selectUserByUserName(user.getUserName())));
     }
-
-    /**测试GET*/
-    @RequestMapping(TEST_URL)
-    public ResponseDto testGet(@RequestParam String param) {
-        return new ResponseDto(0, "成功", new TestDto(param, System.currentTimeMillis()));
-    }
 }

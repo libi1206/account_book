@@ -24,6 +24,7 @@ public class UrlConst {
     public static final String TEST_URL = "/test";
 
     /**其他API的根URI*/
+    public static final String TEST_ROOT = "/test";
     public static final String USER_ROOT = "/user";
     public static final String ASSETS_ROOT = "/assets";
     public static final String ACCOUNT_ROOT = "/account";

@@ -1,5 +1,7 @@
 package com.libi.accountbook.entity;
 
+import com.libi.accountbook.dto.TransactionTypeDto;
+
 import java.io.Serializable;
 
 /**
@@ -20,6 +22,18 @@ public class AccTransactionType implements Serializable {
     private Long createTime;
 
     private static final long serialVersionUID = 1L;
+
+    public AccTransactionType(TransactionTypeDto transactionTypeDto) {
+        setId(transactionTypeDto.getId());
+        setUserId(transactionTypeDto.getUserId());
+        setCreateTime(transactionTypeDto.getCreateTime());
+        setParentId(transactionTypeDto.getParentId());
+        setNote(transactionTypeDto.getNote());
+        setTypeName(transactionTypeDto.getTypeName());
+    }
+
+    public AccTransactionType() {
+    }
 
     public Long getId() {
         return id;

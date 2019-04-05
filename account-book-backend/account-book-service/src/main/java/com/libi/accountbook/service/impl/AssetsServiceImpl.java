@@ -32,7 +32,7 @@ public class AssetsServiceImpl implements AssetsService {
     public AccAssets update(AssetsDto assetsDto) {
         AccAssets accAssets = new AccAssets(assetsDto);
         accAssetsDAO.updateByPrimaryKeySelective(accAssets);
-        return accAssetsDAO.selectByPrimaryKey(assetsDto.getId());
+        return selectById(assetsDto.getId());
     }
 
     @Override

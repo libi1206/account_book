@@ -30,6 +30,10 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
 
     @Override
     public AccTransactionType update(TransactionTypeDto transactionTypeDto) {
+        if (transactionTypeDto.getParentId().equals(-1L)) {
+            transactionTypeDAO.setParentIdNull(transactionTypeDto.getId());
+            transactionTypeDto.setParentId(null);
+        }
         transactionTypeDAO.updateByPrimaryKeySelective(new AccTransactionType(transactionTypeDto));
         return selectById(transactionTypeDto.getId());
     }

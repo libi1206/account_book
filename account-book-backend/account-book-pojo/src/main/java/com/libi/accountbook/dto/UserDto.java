@@ -11,7 +11,7 @@ public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
     private Long id;
     private String userName;
-    private Integer sex;
+    private Boolean sex;
     private String authority;
     private String neckName;
     private String headImg;
@@ -48,11 +48,11 @@ public class UserDto implements Serializable {
         this.userName = userName;
     }
 
-    public Integer getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 

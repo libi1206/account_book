@@ -102,4 +102,10 @@
     from acc_transaction_type
     where user_id = #{user_id,jdbcType=BIGINT} or user_id = null
   </select>
+  <update id="setParentIdNull" parameterType="java.lang.Long" >
+    update acc_transaction_type
+    set
+      parent_id = null
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

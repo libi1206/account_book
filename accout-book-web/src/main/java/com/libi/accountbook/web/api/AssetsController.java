@@ -29,8 +29,7 @@ public class AssetsController extends BaseController implements BaseAttrControll
     @Override
     @PostMapping("/update")
     public ResponseDto update(AssetsDto assetsDto) {
-        AccAssets assets = assetsService.update(assetsDto);
-        return new ResponseDto(0, "修改成功", assets);
+        return new ResponseDto(0, "修改成功",assetsService.update(assetsDto));
     }
 
     @Override

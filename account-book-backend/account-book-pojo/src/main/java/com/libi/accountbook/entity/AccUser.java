@@ -15,7 +15,7 @@ public class AccUser implements Serializable {
 
     private String password;
 
-    private Integer sex;
+    private Boolean sex;
 
     private String authority;
 
@@ -66,11 +66,11 @@ public class AccUser implements Serializable {
         this.password = password;
     }
 
-    public Integer getSex() {
+    public Boolean getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(Boolean sex) {
         this.sex = sex;
     }
 

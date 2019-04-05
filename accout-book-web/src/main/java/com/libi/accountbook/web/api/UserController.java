@@ -26,6 +26,7 @@ public class UserController extends BaseController {
 
     @RequestMapping("/update")
     public ResponseDto update(UserDto userDto) {
+        userDto.setId(getLoginUser().getId());
         return new ResponseDto(0, "更新成功", userService.updateById(userDto));
     }
 }

@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http    //下面是详细的安全性调整
                 .authorizeRequests()
                 //登录界面不限制，登出和查询用户界面需要登录才能访问
-                    .antMatchers(LOGIN_URL,LOGIN_FAIL_URL,REGISTER_URL,TEST_URL).permitAll()
+                    .antMatchers(LOGIN_URL,LOGIN_FAIL_URL,LOGOUT_SUCCESS_URL,REGISTER_URL,TEST_URL).permitAll()
                     .antMatchers("/**").authenticated()
 
                 //设置登陆请求的URL

@@ -11,4 +11,11 @@ import java.util.List;
 @Repository
 public interface AccTransactionTypeDAO extends MyBatisBaseDao<AccTransactionType, Long> {
     List<AccTransactionType> selectAllByUser(Long userId);
+
+    /**
+     * 把父节点置空
+     * @param id
+     * @return
+     */
+    int setParentIdNull(Long id);
 }

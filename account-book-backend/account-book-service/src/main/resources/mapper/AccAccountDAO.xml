@@ -84,4 +84,11 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectAllInUser" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from acc_account
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
 </mapper>

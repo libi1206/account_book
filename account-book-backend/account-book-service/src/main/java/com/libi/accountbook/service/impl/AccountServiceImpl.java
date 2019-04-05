@@ -21,6 +21,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccAccount insert(AccAccount accAccount, Long userId) {
         accAccount.setCreateTime(System.currentTimeMillis());
+        accAccount.setUserId(userId);
         accAccountDAO.insertSelective(accAccount);
         return accAccount;
     }

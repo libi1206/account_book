@@ -11,6 +11,8 @@ public class AccTransactionType implements Serializable {
 
     private Long userId;
 
+    private Long parentId;
+
     private String typeName;
 
     private String note;
@@ -33,6 +35,14 @@ public class AccTransactionType implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 
     public String getTypeName() {
@@ -73,6 +83,7 @@ public class AccTransactionType implements Serializable {
         AccTransactionType other = (AccTransactionType) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
+            && (this.getParentId() == null ? other.getParentId() == null : this.getParentId().equals(other.getParentId()))
             && (this.getTypeName() == null ? other.getTypeName() == null : this.getTypeName().equals(other.getTypeName()))
             && (this.getNote() == null ? other.getNote() == null : this.getNote().equals(other.getNote()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
@@ -84,6 +95,7 @@ public class AccTransactionType implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getParentId() == null) ? 0 : getParentId().hashCode());
         result = prime * result + ((getTypeName() == null) ? 0 : getTypeName().hashCode());
         result = prime * result + ((getNote() == null) ? 0 : getNote().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -98,6 +110,7 @@ public class AccTransactionType implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
+        sb.append(", parentId=").append(parentId);
         sb.append(", typeName=").append(typeName);
         sb.append(", note=").append(note);
         sb.append(", createTime=").append(createTime);

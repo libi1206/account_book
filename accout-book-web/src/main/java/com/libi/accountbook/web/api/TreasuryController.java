@@ -6,6 +6,8 @@ import com.libi.accountbook.entity.AccTreasury;
 import com.libi.accountbook.service.TreasuryService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,16 +22,19 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     private TreasuryService treasuryService;
 
     @Override
+    @PostMapping("/create")
     public ResponseDto create(AccTreasury accTreasury) {
         return new ResponseDto(0,"创建成功",treasuryService.insert(accTreasury,getLoginUser().getId()));
     }
 
     @Override
+    @PostMapping("/update")
     public ResponseDto update(AccTreasury accTreasury) {
         return new ResponseDto(0,"修改成功",treasuryService.update(accTreasury));
     }
 
     @Override
+    @GetMapping("getAll")
     public ResponseDto getAll() {
         return new ResponseDto(0,"查询成功",treasuryService.selectAll(getLoginUser().getId()));
     }

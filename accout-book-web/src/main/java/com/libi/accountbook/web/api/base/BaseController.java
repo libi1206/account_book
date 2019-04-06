@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * @author libi
  */
-public class BaseController {
+public abstract class BaseController {
     @Reference
     private UserService userService;
 

@@ -13,7 +13,7 @@ public class AccTreasury implements Serializable {
 
     private String treasuryName;
 
-    private Long moner;
+    private Double moner;
 
     private String note;
 
@@ -45,11 +45,11 @@ public class AccTreasury implements Serializable {
         this.treasuryName = treasuryName;
     }
 
-    public Long getMoner() {
+    public Double getMoner() {
         return moner;
     }
 
-    public void setMoner(Long moner) {
+    public void setMoner(Double moner) {
         this.moner = moner;
     }
 

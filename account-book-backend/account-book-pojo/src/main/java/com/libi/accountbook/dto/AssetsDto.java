@@ -1,5 +1,7 @@
 package com.libi.accountbook.dto;
 
+import com.libi.accountbook.entity.AccAssets;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +14,17 @@ public class AssetsDto implements Serializable {
     private Double moner;
     private String note;
     private Boolean oneWay;
+
+    public AssetsDto(AccAssets assets) {
+        setId(assets.getId());
+        setAssetsName(assets.getAssetsName());
+        setMoner(assets.getMoner());
+        setNote(assets.getNote());
+        setOneWay(assets.getOneWay());
+    }
+
+    public AssetsDto() {
+    }
 
     public Long getId() {
         return id;

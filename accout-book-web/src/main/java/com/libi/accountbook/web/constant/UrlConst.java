@@ -31,4 +31,5 @@ public class UrlConst {
     public static final String FAMILY_ROOT = "/family";
     public static final String TREASURY_ROOT = "/treasury";
     public static final String TYPE_ROOT = "/type";
+    public static final String RECORD_ROOT = "/record";
 }

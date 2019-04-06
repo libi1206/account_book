@@ -1,16 +1,17 @@
 package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.libi.accountbook.dao.AccAssetsDAO;
 import com.libi.accountbook.dao.AccTransactionRecordDAO;
-import com.libi.accountbook.dao.AccTreasuryDAO;
+import com.libi.accountbook.dto.AssetsDto;
 import com.libi.accountbook.dto.RecordDto;
 import com.libi.accountbook.dto.RecordQueryConditionDto;
+import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTransactionRecord;
 import com.libi.accountbook.entity.AccTreasury;
 import com.libi.accountbook.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +43,21 @@ public class RecordServiceImpl implements RecordService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RecordDto insertRecord(AccTransactionRecord record, Long userId) {
         record.setUserId(userId);
         record.setCreateTime(System.currentTimeMillis());
+        //插入一条记录
         accTransactionRecordDAO.insertSelective(record);
+        //取出资产和小金库，修改金额后重新插入
+        AccAssets assets = assetsService.selectById(record.getAssetsId());
+        assets.setMoner(assets.getMoner() + record.getAmount());
+        assetsService.update(new AssetsDto(assets));
+        if (record.getTreasuryId() != null) {
+            AccTreasury treasury = treasuryService.selectById(record.getTreasuryId());
+            treasury.setMoner(treasury.getMoner() + record.getAmount());
+            treasuryService.update(treasury);
+        }
         return recordEntityToDto(record);
     }
 
@@ -103,12 +115,14 @@ public class RecordServiceImpl implements RecordService {
      * 根据传入的条件查询记录
      * 这应该可以写成一个SQL语句，但是为了不那么复杂，我这边先在Java端做操作
      *
-     * @param recordQueryConditionDto
-     * @return
+     * @param recordQueryConditionDto 条件
+     * @param userId                  当前用户的ID
+     * @return 查询结果
      */
     @Override
-    public List<RecordDto> selectByCondition(RecordQueryConditionDto recordQueryConditionDto) {
+    public List<RecordDto> selectByCondition(RecordQueryConditionDto recordQueryConditionDto, Long userId) {
         // 先查出和家庭相关的交易记录
+        recordQueryConditionDto.setUserId(userId);
         List<AccTransactionRecord> familyRecordList = null;
         if (recordQueryConditionDto.getFamilyId() != null) {
             familyRecordList = accTransactionRecordDAO.selectRecordByFamily(recordQueryConditionDto.getFamilyId());
@@ -134,17 +148,22 @@ public class RecordServiceImpl implements RecordService {
         return resultList;
     }
 
+    @Override
+    public List<RecordDto> selectByUser(Long userId) {
+        return selectByCondition(new RecordQueryConditionDto(), userId);
+    }
+
     /**
      * 根据ID更新记录
-     *
-     * @param recordId
-     * @param recordQueryConditionDto
-     * @return
      */
     @Override
-    public RecordDto updateById(Long recordId, RecordQueryConditionDto recordQueryConditionDto) {
-        AccTransactionRecord accTransactionRecord = new AccTransactionRecord(recordQueryConditionDto);
-        accTransactionRecord.setId(recordId);
-        return null;
+    public RecordDto updateById(Long recordId, String note, Long typeId) {
+        AccTransactionRecord record = new AccTransactionRecord();
+        record.setId(recordId);
+        record.setNote(note);
+        record.setTypeId(typeId);
+        return selectById(recordId);
     }
+
+
 }

@@ -155,4 +155,49 @@
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByCondition" parameterType="com.libi.accountbook.dto.RecordQueryConditionDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from acc_transaction_record
+    <where>
+      user_id = #{userId}
+      <if test="otherUserId != null">
+        and other_user = #{otherUserId}
+      </if>
+      <if test="assetsId != null">
+        and assets_id = #{assetsId}
+      </if>
+      <if test="otherAssetsId != null">
+        and other_assets = #{otherAssetsId}
+      </if>
+      <if test="typeId != null">
+        and type_id = #{typeId}
+      </if>
+      <if test="accountId != null">
+        and account_id = #{accountId}
+      </if>
+      <if test="treasuryId != null">
+        and treasury_id = #{treasuryId}
+      </if>
+      <choose>
+        <when test="income == true">
+          and amount &gt; 0
+        </when>
+        <when test="income == false">
+          and amount &lt; 0
+        </when>
+      </choose>
+
+    </where>
+  </select>
+
+  <select id="selectRecordByFamily" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from acc_transaction_record
+    where user_id in {
+      select user_id from family_mapping where family_id = #{familyId}
+    }
+  </select>
 </mapper>

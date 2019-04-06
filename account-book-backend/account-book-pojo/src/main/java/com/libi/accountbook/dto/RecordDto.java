@@ -28,6 +28,10 @@ public class RecordDto implements Serializable {
         this.createTime = record.getCreateTime();
     }
 
+    public RecordDto() {
+
+    }
+
     public Long getId() {
         return id;
     }

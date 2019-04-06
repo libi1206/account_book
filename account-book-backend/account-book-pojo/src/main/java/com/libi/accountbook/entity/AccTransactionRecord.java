@@ -1,7 +1,8 @@
 package com.libi.accountbook.entity;
 
+import com.libi.accountbook.dto.RecordQueryConditionDto;
+
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * acc_transaction_record
@@ -16,23 +17,34 @@ public class AccTransactionRecord implements Serializable {
 
     private Long otherUser;
 
-    private Long familyId;
+    private Long otherAssets;
 
     private Long typeId;
 
     private Long accountId;
 
-    private Long treasuryId5;
+    private Long treasuryId;
 
-    private Long amount;
+    private Double amount;
 
     private String note;
 
     private Long createTime;
 
-    private byte[] recoedType;
-
     private static final long serialVersionUID = 1L;
+
+    public AccTransactionRecord() {
+    }
+
+    public AccTransactionRecord(RecordQueryConditionDto recordQueryConditionDto) {
+        this.setUserId(recordQueryConditionDto.getUserId());
+        this.setAssetsId(recordQueryConditionDto.getAssetsId());
+        this.setOtherAssets(recordQueryConditionDto.getOtherAssetsId());
+        this.setOtherUser(recordQueryConditionDto.getOtherUserId());
+        this.setTreasuryId(recordQueryConditionDto.getTreasuryId());
+        this.setAccountId(recordQueryConditionDto.getAccountId());
+        this.setTypeId(recordQueryConditionDto.getTypeId());
+    }
 
     public Long getId() {
         return id;
@@ -66,12 +78,12 @@ public class AccTransactionRecord implements Serializable {
         this.otherUser = otherUser;
     }
 
-    public Long getFamilyId() {
-        return familyId;
+    public Long getOtherAssets() {
+        return otherAssets;
     }
 
-    public void setFamilyId(Long familyId) {
-        this.familyId = familyId;
+    public void setOtherAssets(Long otherAssets) {
+        this.otherAssets = otherAssets;
     }
 
     public Long getTypeId() {
@@ -90,19 +102,19 @@ public class AccTransactionRecord implements Serializable {
         this.accountId = accountId;
     }
 
-    public Long getTreasuryId5() {
-        return treasuryId5;
+    public Long getTreasuryId() {
+        return treasuryId;
     }
 
-    public void setTreasuryId5(Long treasuryId5) {
-        this.treasuryId5 = treasuryId5;
+    public void setTreasuryId(Long treasuryId) {
+        this.treasuryId = treasuryId;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -122,14 +134,6 @@ public class AccTransactionRecord implements Serializable {
         this.createTime = createTime;
     }
 
-    public byte[] getRecoedType() {
-        return recoedType;
-    }
-
-    public void setRecoedType(byte[] recoedType) {
-        this.recoedType = recoedType;
-    }
-
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -146,14 +150,13 @@ public class AccTransactionRecord implements Serializable {
             && (this.getAssetsId() == null ? other.getAssetsId() == null : this.getAssetsId().equals(other.getAssetsId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getOtherUser() == null ? other.getOtherUser() == null : this.getOtherUser().equals(other.getOtherUser()))
-            && (this.getFamilyId() == null ? other.getFamilyId() == null : this.getFamilyId().equals(other.getFamilyId()))
+            && (this.getOtherAssets() == null ? other.getOtherAssets() == null : this.getOtherAssets().equals(other.getOtherAssets()))
             && (this.getTypeId() == null ? other.getTypeId() == null : this.getTypeId().equals(other.getTypeId()))
             && (this.getAccountId() == null ? other.getAccountId() == null : this.getAccountId().equals(other.getAccountId()))
-            && (this.getTreasuryId5() == null ? other.getTreasuryId5() == null : this.getTreasuryId5().equals(other.getTreasuryId5()))
+            && (this.getTreasuryId() == null ? other.getTreasuryId() == null : this.getTreasuryId().equals(other.getTreasuryId()))
             && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
             && (this.getNote() == null ? other.getNote() == null : this.getNote().equals(other.getNote()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (Arrays.equals(this.getRecoedType(), other.getRecoedType()));
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
     @Override
@@ -164,14 +167,13 @@ public class AccTransactionRecord implements Serializable {
         result = prime * result + ((getAssetsId() == null) ? 0 : getAssetsId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getOtherUser() == null) ? 0 : getOtherUser().hashCode());
-        result = prime * result + ((getFamilyId() == null) ? 0 : getFamilyId().hashCode());
+        result = prime * result + ((getOtherAssets() == null) ? 0 : getOtherAssets().hashCode());
         result = prime * result + ((getTypeId() == null) ? 0 : getTypeId().hashCode());
         result = prime * result + ((getAccountId() == null) ? 0 : getAccountId().hashCode());
-        result = prime * result + ((getTreasuryId5() == null) ? 0 : getTreasuryId5().hashCode());
+        result = prime * result + ((getTreasuryId() == null) ? 0 : getTreasuryId().hashCode());
         result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
         result = prime * result + ((getNote() == null) ? 0 : getNote().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + (Arrays.hashCode(getRecoedType()));
         return result;
     }
 
@@ -185,14 +187,13 @@ public class AccTransactionRecord implements Serializable {
         sb.append(", assetsId=").append(assetsId);
         sb.append(", userId=").append(userId);
         sb.append(", otherUser=").append(otherUser);
-        sb.append(", familyId=").append(familyId);
+        sb.append(", otherAssets=").append(otherAssets);
         sb.append(", typeId=").append(typeId);
         sb.append(", accountId=").append(accountId);
-        sb.append(", treasuryId5=").append(treasuryId5);
+        sb.append(", treasuryId=").append(treasuryId);
         sb.append(", amount=").append(amount);
         sb.append(", note=").append(note);
         sb.append(", createTime=").append(createTime);
-        sb.append(", recoedType=").append(recoedType);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

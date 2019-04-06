@@ -6,29 +6,21 @@
     <result column="assets_id" jdbcType="BIGINT" property="assetsId" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="other_user" jdbcType="BIGINT" property="otherUser" />
-    <result column="family_id" jdbcType="BIGINT" property="familyId" />
+    <result column="other_assets" jdbcType="BIGINT" property="otherAssets" />
     <result column="type_id" jdbcType="BIGINT" property="typeId" />
     <result column="account_id" jdbcType="BIGINT" property="accountId" />
-    <result column="treasury_id5" jdbcType="BIGINT" property="treasuryId5" />
+    <result column="treasury_id" jdbcType="BIGINT" property="treasuryId" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.libi.accountbook.entity.AccTransactionRecord">
-    <result column="recoed_type" jdbcType="LONGVARBINARY" property="recoedType" />
-  </resultMap>
   <sql id="Base_Column_List">
-    id, assets_id, user_id, other_user, family_id, type_id, account_id, treasury_id5, 
+    id, assets_id, user_id, other_user, other_assets, type_id, account_id, treasury_id, 
     amount, note, create_time
   </sql>
-  <sql id="Blob_Column_List">
-    recoed_type
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from acc_transaction_record
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -38,13 +30,13 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccTransactionRecord" useGeneratedKeys="true">
     insert into acc_transaction_record (assets_id, user_id, other_user, 
-      family_id, type_id, account_id, 
-      treasury_id5, amount, note, 
-      create_time, recoed_type)
+      other_assets, type_id, account_id, 
+      treasury_id, amount, note, 
+      create_time)
     values (#{assetsId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{otherUser,jdbcType=BIGINT}, 
-      #{familyId,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
-      #{treasuryId5,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT}, #{recoedType,jdbcType=LONGVARBINARY})
+      #{otherAssets,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
+      #{treasuryId,jdbcType=BIGINT}, #{amount,jdbcType=DECIMAL}, #{note,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccTransactionRecord" useGeneratedKeys="true">
     insert into acc_transaction_record
@@ -58,8 +50,8 @@
       <if test="otherUser != null">
         other_user,
       </if>
-      <if test="familyId != null">
-        family_id,
+      <if test="otherAssets != null">
+        other_assets,
       </if>
       <if test="typeId != null">
         type_id,
@@ -67,8 +59,8 @@
       <if test="accountId != null">
         account_id,
       </if>
-      <if test="treasuryId5 != null">
-        treasury_id5,
+      <if test="treasuryId != null">
+        treasury_id,
       </if>
       <if test="amount != null">
         amount,
@@ -78,9 +70,6 @@
       </if>
       <if test="createTime != null">
         create_time,
-      </if>
-      <if test="recoedType != null">
-        recoed_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -93,8 +82,8 @@
       <if test="otherUser != null">
         #{otherUser,jdbcType=BIGINT},
       </if>
-      <if test="familyId != null">
-        #{familyId,jdbcType=BIGINT},
+      <if test="otherAssets != null">
+        #{otherAssets,jdbcType=BIGINT},
       </if>
       <if test="typeId != null">
         #{typeId,jdbcType=BIGINT},
@@ -102,8 +91,8 @@
       <if test="accountId != null">
         #{accountId,jdbcType=BIGINT},
       </if>
-      <if test="treasuryId5 != null">
-        #{treasuryId5,jdbcType=BIGINT},
+      <if test="treasuryId != null">
+        #{treasuryId,jdbcType=BIGINT},
       </if>
       <if test="amount != null">
         #{amount,jdbcType=DECIMAL},
@@ -113,9 +102,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="recoedType != null">
-        #{recoedType,jdbcType=LONGVARBINARY},
       </if>
     </trim>
   </insert>
@@ -131,8 +117,8 @@
       <if test="otherUser != null">
         other_user = #{otherUser,jdbcType=BIGINT},
       </if>
-      <if test="familyId != null">
-        family_id = #{familyId,jdbcType=BIGINT},
+      <if test="otherAssets != null">
+        other_assets = #{otherAssets,jdbcType=BIGINT},
       </if>
       <if test="typeId != null">
         type_id = #{typeId,jdbcType=BIGINT},
@@ -140,8 +126,8 @@
       <if test="accountId != null">
         account_id = #{accountId,jdbcType=BIGINT},
       </if>
-      <if test="treasuryId5 != null">
-        treasury_id5 = #{treasuryId5,jdbcType=BIGINT},
+      <if test="treasuryId != null">
+        treasury_id = #{treasuryId,jdbcType=BIGINT},
       </if>
       <if test="amount != null">
         amount = #{amount,jdbcType=DECIMAL},
@@ -152,25 +138,7 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="recoedType != null">
-        recoed_type = #{recoedType,jdbcType=LONGVARBINARY},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.libi.accountbook.entity.AccTransactionRecord">
-    update acc_transaction_record
-    set assets_id = #{assetsId,jdbcType=BIGINT},
-      user_id = #{userId,jdbcType=BIGINT},
-      other_user = #{otherUser,jdbcType=BIGINT},
-      family_id = #{familyId,jdbcType=BIGINT},
-      type_id = #{typeId,jdbcType=BIGINT},
-      account_id = #{accountId,jdbcType=BIGINT},
-      treasury_id5 = #{treasuryId5,jdbcType=BIGINT},
-      amount = #{amount,jdbcType=DECIMAL},
-      note = #{note,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=BIGINT},
-      recoed_type = #{recoedType,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.libi.accountbook.entity.AccTransactionRecord">
@@ -178,10 +146,10 @@
     set assets_id = #{assetsId,jdbcType=BIGINT},
       user_id = #{userId,jdbcType=BIGINT},
       other_user = #{otherUser,jdbcType=BIGINT},
-      family_id = #{familyId,jdbcType=BIGINT},
+      other_assets = #{otherAssets,jdbcType=BIGINT},
       type_id = #{typeId,jdbcType=BIGINT},
       account_id = #{accountId,jdbcType=BIGINT},
-      treasury_id5 = #{treasuryId5,jdbcType=BIGINT},
+      treasury_id = #{treasuryId,jdbcType=BIGINT},
       amount = #{amount,jdbcType=DECIMAL},
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT}

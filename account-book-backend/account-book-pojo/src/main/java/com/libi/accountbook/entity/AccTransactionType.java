@@ -17,6 +17,8 @@ public class AccTransactionType implements Serializable {
 
     private String typeName;
 
+    private Boolean income;
+
     private String note;
 
     private Long createTime;
@@ -28,6 +30,7 @@ public class AccTransactionType implements Serializable {
         setUserId(transactionTypeDto.getUserId());
         setCreateTime(transactionTypeDto.getCreateTime());
         setParentId(transactionTypeDto.getParentId());
+        setIncome(transactionTypeDto.getIncome());
         setNote(transactionTypeDto.getNote());
         setTypeName(transactionTypeDto.getTypeName());
     }
@@ -65,6 +68,14 @@ public class AccTransactionType implements Serializable {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public Boolean getIncome() {
+        return income;
+    }
+
+    public void setIncome(Boolean income) {
+        this.income = income;
     }
 
     public String getNote() {

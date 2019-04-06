@@ -6,11 +6,12 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="income" jdbcType="BINARY" property="income"/>
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, parent_id, type_name, note, create_time
+    id, user_id, parent_id, type_name, income, note, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -23,9 +24,9 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccTransactionType" useGeneratedKeys="true">
-    insert into acc_transaction_type (user_id, parent_id, type_name, 
+    insert into acc_transaction_type (user_id, parent_id, type_name, income,
       note, create_time)
-    values (#{userId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{typeName,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{typeName,jdbcType=VARCHAR}, #{income,jdbcType = BINARY},
       #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccTransactionType" useGeneratedKeys="true">
@@ -39,6 +40,9 @@
       </if>
       <if test="typeName != null">
         type_name,
+      </if>
+      <if test="income != null">
+        income,
       </if>
       <if test="note != null">
         note,
@@ -56,6 +60,9 @@
       </if>
       <if test="typeName != null">
         #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="income != null">
+        #{income,jdbcType=BINARY},
       </if>
       <if test="note != null">
         #{note,jdbcType=VARCHAR},
@@ -77,6 +84,9 @@
       <if test="typeName != null">
         type_name = #{typeName,jdbcType=VARCHAR},
       </if>
+      <if test="income != null">
+        income = #{income,jdbcType=BINARY},
+      </if>
       <if test="note != null">
         note = #{note,jdbcType=VARCHAR},
       </if>
@@ -91,6 +101,7 @@
     set user_id = #{userId,jdbcType=BIGINT},
       parent_id = #{parentId,jdbcType=BIGINT},
       type_name = #{typeName,jdbcType=VARCHAR},
+      income = #{income,jdbcType=BINARY},
       note = #{note,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}

@@ -14,6 +14,7 @@ public class TransactionTypeDto implements Serializable {
     private Long userId;
     private Long parentId;
     private String typeName;
+    private Boolean income;
     private String note;
     private Long createTime;
     private List<TransactionTypeDto> childType = new ArrayList<>();
@@ -28,6 +29,7 @@ public class TransactionTypeDto implements Serializable {
         setUserId(accTransactionType.getUserId());
         setTypeName(accTransactionType.getTypeName());
         setCreateTime(accTransactionType.getCreateTime());
+        setIncome(accTransactionType.getIncome());
         setNote(accTransactionType.getNote());
     }
 
@@ -73,6 +75,14 @@ public class TransactionTypeDto implements Serializable {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public Boolean getIncome() {
+        return income;
+    }
+
+    public void setIncome(Boolean income) {
+        this.income = income;
     }
 
     public String getNote() {

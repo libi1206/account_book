@@ -9,6 +9,8 @@ import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.libi.accountbook.web.constant.UrlConst.*;
 /**
  * @author libi
@@ -21,14 +23,29 @@ public class AssetsController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/create")
-    public ResponseDto create(AssetsDto assetsDto) {
+    public ResponseDto create(AssetsDto assetsDto,HttpServletRequest request) {
+        if (assetsDto.getAssetsName() == null) {
+            notFindParams.add("assetsName");
+        }
+        if (assetsDto.getMoner() == null) {
+            notFindParams.add("moner");
+        }
+        if (assetsDto.getOneWay() == null) {
+            notFindParams.add("oneWay");
+        }
+        throwParamNotFindException(request.getRequestURI());
+        assetsDto.setId(null);
         AccAssets assets = assetsService.insert(assetsDto,getLoginUser().getId());
         return new ResponseDto(0, "创建成功", assets);
     }
 
     @Override
     @PostMapping("/update")
-    public ResponseDto update(AssetsDto assetsDto) {
+    public ResponseDto update(AssetsDto assetsDto,HttpServletRequest request) {
+        if (assetsDto.getId() == null) {
+            notFindParams.add("id");
+        }
+        throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "修改成功",assetsService.update(assetsDto));
     }
 

@@ -9,6 +9,8 @@ import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.libi.accountbook.web.constant.UrlConst.FAMILY_ROOT;
 /**
  * @author libi
@@ -21,14 +23,23 @@ public class FamilyController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/create")
-    public ResponseDto create(FamilyDto familyDto) {
+    public ResponseDto create(FamilyDto familyDto,HttpServletRequest request) {
+        if (familyDto.getFamilyName() == null) {
+            notFindParams.add("familyName");
+        }
+        familyDto.setId(null);
+        throwParamNotFindException(request.getRequestURI());
         AccFamily family = familyService.insert(familyDto, getLoginUser().getId());
         return new ResponseDto(0, "创建且加入成功", family);
     }
 
     @Override
     @PostMapping("/update")
-    public ResponseDto update(FamilyDto familyDto) {
+    public ResponseDto update(FamilyDto familyDto,HttpServletRequest request) {
+        if (familyDto.getId() == null) {
+            notFindParams.add("id");
+        }
+        throwParamNotFindException(request.getRequestURI());
         AccFamily family = familyService.update(familyDto);
         return new ResponseDto(0, "修改成功", family);
     }
@@ -46,6 +57,9 @@ public class FamilyController extends BaseController implements BaseAttrControll
      */
     @GetMapping("/join")
     public ResponseDto joinFamily(@RequestParam Long familyId) {
+        if (familyId == null) {
+            notFindParams.add("familyId");
+        }
         return new ResponseDto(0, "加入成功", familyService.joinFamily(familyId, getLoginUser().getId()));
     }
 
@@ -56,11 +70,17 @@ public class FamilyController extends BaseController implements BaseAttrControll
      */
     @GetMapping("/quit")
     public ResponseDto quitFamily(@RequestParam Long familyId) {
+        if (familyId == null) {
+            notFindParams.add("familyId");
+        }
         return new ResponseDto(0, "退出成功", familyService.quitFamily(familyId, getLoginUser().getId()));
     }
 
     @GetMapping("/getUser")
     public ResponseDto getAllUser(@RequestParam Long familyId) {
+        if (familyId == null) {
+             notFindParams.add("familyId");
+        }
         return new ResponseDto(0, "查询成功", familyService.selectAllUserByFamily(familyId));
     }
 }

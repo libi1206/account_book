@@ -67,7 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //登录界面不限制，登出和查询用户界面需要登录才能访问
                     .antMatchers(LOGIN_URL,LOGIN_FAIL_URL,LOGOUT_SUCCESS_URL,REGISTER_URL,TEST_URL+"/**").permitAll()
-                    .antMatchers("/**").authenticated()
+                    .antMatchers(ASSETS_ROOT+"/**").authenticated()
+                    .antMatchers(ACCOUNT_ROOT+"/**").authenticated()
+                    .antMatchers(FAMILY_ROOT+"/**").authenticated()
+                    .antMatchers(USER_ROOT+"/**").authenticated()
+                    .antMatchers(TREASURY_ROOT+"/**").authenticated()
+                    .antMatchers(TYPE_ROOT+"/**").authenticated()
+                    .antMatchers(RECORD_ROOT+"/**").authenticated()
+                    .antMatchers("file/**").authenticated()
+
+
+
 
                 //设置登陆请求的URL
                 .and().formLogin()

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static com.libi.accountbook.web.constant.UrlConst.*;
 /**
  * @author libi
@@ -48,7 +50,14 @@ public class LoginController extends BaseController {
 
     /**注册用户*/
     @RequestMapping(value = REGISTER_URL,method = RequestMethod.POST)
-    public ResponseDto register(AccUser user) {
+    public ResponseDto register(AccUser user,HttpServletRequest request) {
+        if (user.getUserName() == null) {
+            notFindParams.add("userName");
+        }
+        if (user.getPassword() == null) {
+            notFindParams.add("password");
+        }
+        throwParamNotFindException(request.getRequestURI());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         logger.info("转码后的密码:"+user.getPassword()+",length:"+user.getPassword().length());
         userService.insertUser(user);

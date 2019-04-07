@@ -5,8 +5,11 @@ import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.service.UserService;
 import com.libi.accountbook.web.api.base.BaseController;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,9 +28,12 @@ import static com.libi.accountbook.web.constant.FileConct.*;
  */
 @RestController
 @RequestMapping("/file")
+@PropertySource("classpath:file-path.properties")
 public class FileController extends BaseController {
     @Reference
     private UserService userService;
+    @Value("${head-img-nginx-path}")
+    private String imageFilePath;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -39,6 +45,10 @@ public class FileController extends BaseController {
      */
     @PostMapping(value = "/imgUpload")
     public ResponseDto fileUpload(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
+        if (file == null) {
+            notFindParams.add("file");
+        }
+        throwParamNotFindException(request.getRequestURI());
         if (file.isEmpty()) {
             logger.info("文件为空空");
         }
@@ -53,7 +63,12 @@ public class FileController extends BaseController {
         // 新文件名
         fileName = UUID.randomUUID() + suffixName;
         logger.info(" 新文件名：" + fileName);
-        String realPath = request.getSession().getServletContext().getRealPath(URL_PREFIX);
+        String realPath;
+        if (StringUtils.isEmpty(imageFilePath)) {
+            realPath = request.getSession().getServletContext().getRealPath(URL_PREFIX);
+        } else {
+            realPath = imageFilePath;
+        }
         File dest = new File(realPath + fileName);
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();

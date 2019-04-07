@@ -10,6 +10,7 @@ import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,13 +28,26 @@ public class TransactionTypeController extends BaseController implements BaseAtt
 
     @Override
     @RequestMapping("/create")
-    public ResponseDto create(TransactionTypeDto transactionTypeDto) {
+    public ResponseDto create(TransactionTypeDto transactionTypeDto,HttpServletRequest request) {
+        if (transactionTypeDto.getTypeName() == null) {
+            notFindParams.add("typeName");
+        }
+        if (transactionTypeDto.getIncome() == null) {
+            notFindParams.add("income");
+        }
+        throwParamNotFindException(request.getRequestURI());
+        transactionTypeDto.setId(null);
+        transactionTypeDto.setCreateTime(null);
         return new ResponseDto(0, "创建成功", transactionTypeService.insert(transactionTypeDto, getLoginUser().getId()));
     }
 
     @Override
     @RequestMapping("/update")
-    public ResponseDto update(TransactionTypeDto transactionTypeDto) {
+    public ResponseDto update(TransactionTypeDto transactionTypeDto,HttpServletRequest request) {
+        if (transactionTypeDto.getId() == null) {
+            notFindParams.add("id");
+        }
+        throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "修改成功", transactionTypeService.update(transactionTypeDto));
     }
 

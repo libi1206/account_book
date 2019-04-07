@@ -40,6 +40,7 @@
 * 需要创建默认的分类，所有的用户都可以使用这个分类
 * ~~需要过滤不规范的操作，抛出对应的异常码~~
     * **解决方案** ：因为SpringBoot在使用自己的异常处理器`@ExceptionHandler`时必须要去掉静态资源的映射才能正确的抛出404的异常`NoHandlerFoundException`，所以我使用Nginx动静分离把文件存在了nginx中。面对不同的生产环境只需要改变`resource/file-path.properties`下的路径即可，注意，最后一个路径必须要以`/hean`结尾。nginx的配置如下
+    
     ```
         #这个标签表示创建一个服务器
         server {

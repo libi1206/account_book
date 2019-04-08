@@ -3,6 +3,8 @@ package com.libi.accountbook.web.api;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.entity.AccTreasury;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.TreasuryService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
@@ -22,7 +24,7 @@ public class TreasuryController extends BaseController implements BaseAttrContro
 
     @Override
     @PostMapping("/create")
-    public ResponseDto create(AccTreasury accTreasury, HttpServletRequest request) {
+    public ResponseDto create(AccTreasury accTreasury, HttpServletRequest request) throws ParamNotFindException {
         if (accTreasury.getTreasuryName() == null) {
             notFindParams.add("treasuryName");
         }
@@ -36,12 +38,12 @@ public class TreasuryController extends BaseController implements BaseAttrContro
 
     @Override
     @PostMapping("/update")
-    public ResponseDto update(AccTreasury accTreasury, HttpServletRequest request) {
+    public ResponseDto update(AccTreasury accTreasury, HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
         if (accTreasury.getId() == null) {
             notFindParams.add("id");
         }
         throwParamNotFindException(request.getRequestURI());
-        return new ResponseDto(0,"修改成功",treasuryService.update(accTreasury));
+        return new ResponseDto(0,"修改成功",treasuryService.update(accTreasury,getLoginUser().getId()));
     }
 
     @Override

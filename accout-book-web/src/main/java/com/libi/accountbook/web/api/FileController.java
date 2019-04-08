@@ -3,6 +3,7 @@ package com.libi.accountbook.web.api;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.dto.UserDto;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.UserService;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +45,7 @@ public class FileController extends BaseController {
      * @return
      */
     @PostMapping(value = "/imgUpload")
-    public ResponseDto fileUpload(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) {
+    public ResponseDto fileUpload(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) throws ParamNotFindException {
         if (file == null) {
             notFindParams.add("file");
         }

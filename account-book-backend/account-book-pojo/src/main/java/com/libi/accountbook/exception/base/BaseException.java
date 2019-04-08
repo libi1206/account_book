@@ -3,7 +3,7 @@ package com.libi.accountbook.exception.base;
 /**
  * @author libi
  */
-public class BaseException extends RuntimeException {
+public class BaseException extends Exception {
     private String uri;
     private Long currentTime;
 

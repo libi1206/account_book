@@ -9,10 +9,8 @@ import com.libi.accountbook.dao.FamilyMappingDAO;
 import com.libi.accountbook.dto.FamilyDto;
 import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.UserDto;
-import com.libi.accountbook.entity.AccAssets;
-import com.libi.accountbook.entity.AccFamily;
-import com.libi.accountbook.entity.AccUser;
-import com.libi.accountbook.entity.FamilyMappingKey;
+import com.libi.accountbook.entity.*;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.service.FamilyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -50,8 +48,17 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
-    public AccFamily update(FamilyDto familyDto) {
+    @Transactional(rollbackFor = Exception.class)
+    public AccFamily update(FamilyDto familyDto,Long userId) throws AttrNotLoginUserException {
         AccFamily family = new AccFamily(familyDto);
+        FamilyMappingKey key = new FamilyMappingKey();
+        key.setUserId(userId);
+        key.setFamilyId(familyDto.getId());
+        FamilyMappingKey selected = familyMappingDAO.selectByPrimaryKey(key);
+        if (selected == null) {
+            throw new AttrNotLoginUserException();
+        }
+
         accFamilyDAO.updateByPrimaryKeySelective(family);
         return accFamilyDAO.selectByPrimaryKey(familyDto.getId());
     }

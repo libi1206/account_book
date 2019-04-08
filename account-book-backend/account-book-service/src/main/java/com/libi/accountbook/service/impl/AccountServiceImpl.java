@@ -6,9 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccAccountDAO;
 import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.entity.AccAccount;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,7 +32,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccAccount update(AccAccount accAccount) {
+    @Transactional(rollbackFor = Exception.class)
+    public AccAccount update(AccAccount accAccount, Long userId) throws AttrNotLoginUserException {
+        AccAccount selected = selectById(accAccount.getId());
+        if (selected == null || !userId.equals(selected.getUserId())) {
+            throw new AttrNotLoginUserException();
+        }
+
         accAccountDAO.updateByPrimaryKeySelective(accAccount);
         return selectById(accAccount.getId());
     }

@@ -4,8 +4,8 @@ import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.RecordDto;
 import com.libi.accountbook.dto.RecordQueryConditionDto;
 import com.libi.accountbook.entity.AccTransactionRecord;
-
-import java.util.List;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.NoMoneyException;
 
 /**
  * @author libi
@@ -17,7 +17,7 @@ public interface RecordService {
      * @param record
      * @return
      */
-    RecordDto insertRecord(AccTransactionRecord record, Long userId);
+    RecordDto insertRecord(AccTransactionRecord record, Long userId) throws AttrNotLoginUserException, NoMoneyException;
 
     /**
      * 只查询一条记录
@@ -37,5 +37,5 @@ public interface RecordService {
      * 通过Id修改一条记录
      * @return
      */
-    RecordDto updateById(Long recordId, String note ,Long typeId);
+    RecordDto updateById(Long recordId, String note ,Long typeId,Long userId) throws AttrNotLoginUserException;
 }

@@ -7,6 +7,7 @@ import com.libi.accountbook.dao.AccTreasuryDAO;
 import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTreasury;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.service.TreasuryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,11 @@ public class TreasuryServiceImpl implements TreasuryService {
     }
 
     @Override
-    public AccTreasury update(AccTreasury accTreasury) {
+    public AccTreasury update(AccTreasury accTreasury,Long userId) throws AttrNotLoginUserException {
+        AccTreasury selected = selectById(accTreasury.getId());
+        if (selected == null || !userId.equals(selected.getUserId())) {
+            throw new AttrNotLoginUserException();
+        }
         accTreasuryDAO.updateByPrimaryKeySelective(accTreasury);
         return selectById(accTreasury.getId());
     }

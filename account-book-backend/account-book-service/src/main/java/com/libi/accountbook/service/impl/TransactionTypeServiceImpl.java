@@ -8,6 +8,7 @@ import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.TransactionTypeDto;
 import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTransactionType;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.service.TransactionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,12 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
     }
 
     @Override
-    public AccTransactionType update(TransactionTypeDto transactionTypeDto) {
+    public AccTransactionType update(TransactionTypeDto transactionTypeDto,Long userId) throws AttrNotLoginUserException {
+        AccTransactionType selected = selectById(transactionTypeDto.getId());
+        if (selected == null || !userId.equals(selected.getUserId())) {
+            throw new AttrNotLoginUserException();
+        }
+        //如果传入的父节点Id是-1，就把父节点置空以达到把这个分类变成父分类的目的
         if (transactionTypeDto.getParentId().equals(-1L)) {
             transactionTypeDAO.setParentIdNull(transactionTypeDto.getId());
             transactionTypeDto.setParentId(null);

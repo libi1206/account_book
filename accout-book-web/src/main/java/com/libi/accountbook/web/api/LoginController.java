@@ -5,6 +5,7 @@ import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.dto.TestDto;
 import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.entity.AccUser;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.UserService;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class LoginController extends BaseController {
 
     /**注册用户*/
     @RequestMapping(value = REGISTER_URL,method = RequestMethod.POST)
-    public ResponseDto register(AccUser user,HttpServletRequest request) {
+    public ResponseDto register(AccUser user,HttpServletRequest request) throws ParamNotFindException {
         if (user.getUserName() == null) {
             notFindParams.add("userName");
         }

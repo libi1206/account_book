@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * @author libi
+ * 如果必要的参数找不到，就会抛出这个异常
  */
 public class ParamNotFindException extends BaseException {
     private List<String> paramsName;

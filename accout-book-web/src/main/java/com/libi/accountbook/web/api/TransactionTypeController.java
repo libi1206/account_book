@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.dto.TransactionTypeDto;
 import com.libi.accountbook.entity.AccTransactionType;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.TransactionTypeService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
@@ -29,7 +31,7 @@ public class TransactionTypeController extends BaseController implements BaseAtt
 
     @Override
     @RequestMapping("/create")
-    public ResponseDto create(TransactionTypeDto transactionTypeDto,HttpServletRequest request) {
+    public ResponseDto create(TransactionTypeDto transactionTypeDto,HttpServletRequest request) throws ParamNotFindException {
         if (transactionTypeDto.getTypeName() == null) {
             notFindParams.add("typeName");
         }
@@ -44,12 +46,12 @@ public class TransactionTypeController extends BaseController implements BaseAtt
 
     @Override
     @RequestMapping("/update")
-    public ResponseDto update(TransactionTypeDto transactionTypeDto,HttpServletRequest request) {
+    public ResponseDto update(TransactionTypeDto transactionTypeDto,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
         if (transactionTypeDto.getId() == null) {
             notFindParams.add("id");
         }
         throwParamNotFindException(request.getRequestURI());
-        return new ResponseDto(0, "修改成功", transactionTypeService.update(transactionTypeDto));
+        return new ResponseDto(0, "修改成功", transactionTypeService.update(transactionTypeDto,getLoginUser().getId()));
     }
 
     @Override

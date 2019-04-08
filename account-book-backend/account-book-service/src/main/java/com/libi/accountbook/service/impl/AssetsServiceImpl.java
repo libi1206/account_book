@@ -6,7 +6,9 @@ import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccAssetsDAO;
 import com.libi.accountbook.dto.AssetsDto;
 import com.libi.accountbook.dto.PageDto;
+import com.libi.accountbook.entity.AccAccount;
 import com.libi.accountbook.entity.AccAssets;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.service.AssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,8 +34,13 @@ public class AssetsServiceImpl implements AssetsService {
     }
 
     @Override
-    public AccAssets update(AssetsDto assetsDto) {
+    public AccAssets update(AssetsDto assetsDto,Long userId) throws AttrNotLoginUserException {
         AccAssets accAssets = new AccAssets(assetsDto);
+        AccAssets selected = selectById(accAssets.getId());
+        if (selected == null || !userId.equals(selected.getUserId())) {
+            throw new AttrNotLoginUserException();
+        }
+
         accAssetsDAO.updateByPrimaryKeySelective(accAssets);
         return selectById(assetsDto.getId());
     }

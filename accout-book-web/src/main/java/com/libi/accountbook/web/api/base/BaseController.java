@@ -24,7 +24,7 @@ public abstract class BaseController {
     private Logger logger = LoggerFactory.getLogger(getClass());
     protected List<String> notFindParams = new ArrayList<>();
 
-    protected void throwParamNotFindException (String uri) {
+    protected void throwParamNotFindException (String uri) throws ParamNotFindException {
         if (notFindParams.size()>0) {
             ParamNotFindException paramNotFindException = new ParamNotFindException();
             paramNotFindException.setParamsName(new ArrayList<String>(notFindParams));

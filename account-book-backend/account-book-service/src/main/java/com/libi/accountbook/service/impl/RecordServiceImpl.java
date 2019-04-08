@@ -11,6 +11,8 @@ import com.libi.accountbook.dto.RecordQueryConditionDto;
 import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTransactionRecord;
 import com.libi.accountbook.entity.AccTreasury;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.NoMoneyException;
 import com.libi.accountbook.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,21 +49,29 @@ public class RecordServiceImpl implements RecordService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public RecordDto insertRecord(AccTransactionRecord record, Long userId) {
+    public RecordDto insertRecord(AccTransactionRecord record, Long userId) throws AttrNotLoginUserException, NoMoneyException {
         record.setUserId(userId);
-        if (record.getCreateTime() != null) {
+        if (record.getCreateTime() == null) {
             record.setCreateTime(System.currentTimeMillis());
         }
         //插入一条记录
         accTransactionRecordDAO.insertSelective(record);
         //取出资产和小金库，修改金额后重新插入
         AccAssets assets = assetsService.selectById(record.getAssetsId());
-        assets.setMoner(assets.getMoner() + record.getAmount());
-        assetsService.update(new AssetsDto(assets));
+        Double result = assets.getMoner() + record.getAmount();
+        if (result < 0) {
+            throw new NoMoneyException();
+        }
+        assets.setMoner(result);
+        assetsService.update(new AssetsDto(assets),userId);
         if (record.getTreasuryId() != null) {
             AccTreasury treasury = treasuryService.selectById(record.getTreasuryId());
-            treasury.setMoner(treasury.getMoner() + record.getAmount());
-            treasuryService.update(treasury);
+            result = treasury.getMoner() + record.getAmount();
+            if (result < 0) {
+                throw new NoMoneyException();
+            }
+            treasury.setMoner(result);
+            treasuryService.update(treasury,userId);
         }
         return recordEntityToDto(record);
     }
@@ -146,7 +156,12 @@ public class RecordServiceImpl implements RecordService {
      * 根据ID更新记录
      */
     @Override
-    public RecordDto updateById(Long recordId, String note, Long typeId) {
+    public RecordDto updateById(Long recordId, String note, Long typeId, Long userId) throws AttrNotLoginUserException {
+        RecordDto selected = selectById(recordId);
+        if (!selected.getUser().getId().equals(userId)) {
+            throw new AttrNotLoginUserException();
+        }
+
         AccTransactionRecord record = new AccTransactionRecord();
         record.setId(recordId);
         record.setNote(note);

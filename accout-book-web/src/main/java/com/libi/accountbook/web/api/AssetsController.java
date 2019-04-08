@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.AssetsDto;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.entity.AccAssets;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.AssetsService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
@@ -23,7 +25,7 @@ public class AssetsController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/create")
-    public ResponseDto create(AssetsDto assetsDto,HttpServletRequest request) {
+    public ResponseDto create(AssetsDto assetsDto,HttpServletRequest request) throws ParamNotFindException {
         if (assetsDto.getAssetsName() == null) {
             notFindParams.add("assetsName");
         }
@@ -41,12 +43,12 @@ public class AssetsController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/update")
-    public ResponseDto update(AssetsDto assetsDto,HttpServletRequest request) {
+    public ResponseDto update(AssetsDto assetsDto,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
         if (assetsDto.getId() == null) {
             notFindParams.add("id");
         }
         throwParamNotFindException(request.getRequestURI());
-        return new ResponseDto(0, "修改成功",assetsService.update(assetsDto));
+        return new ResponseDto(0, "修改成功",assetsService.update(assetsDto,getLoginUser().getId()));
     }
 
     @Override

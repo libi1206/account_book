@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FamilyMappingDAO extends MyBatisBaseDao<FamilyMappingKey,Long> {
     int deleteByPrimaryKey(FamilyMappingKey key);
+
+    FamilyMappingKey selectByPrimaryKey(FamilyMappingKey familyMappingKey);
 }

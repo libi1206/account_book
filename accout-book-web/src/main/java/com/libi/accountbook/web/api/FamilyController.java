@@ -4,6 +4,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.FamilyDto;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.entity.AccFamily;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
+import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.FamilyService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
@@ -23,7 +25,7 @@ public class FamilyController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/create")
-    public ResponseDto create(FamilyDto familyDto,HttpServletRequest request) {
+    public ResponseDto create(FamilyDto familyDto,HttpServletRequest request) throws ParamNotFindException {
         if (familyDto.getFamilyName() == null) {
             notFindParams.add("familyName");
         }
@@ -35,12 +37,12 @@ public class FamilyController extends BaseController implements BaseAttrControll
 
     @Override
     @PostMapping("/update")
-    public ResponseDto update(FamilyDto familyDto,HttpServletRequest request) {
+    public ResponseDto update(FamilyDto familyDto,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
         if (familyDto.getId() == null) {
             notFindParams.add("id");
         }
         throwParamNotFindException(request.getRequestURI());
-        AccFamily family = familyService.update(familyDto);
+        AccFamily family = familyService.update(familyDto,getLoginUser().getId());
         return new ResponseDto(0, "修改成功", family);
     }
 

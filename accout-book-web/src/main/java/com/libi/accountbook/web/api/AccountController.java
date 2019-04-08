@@ -3,6 +3,7 @@ package com.libi.accountbook.web.api;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.entity.AccAccount;
+import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.AccountService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
@@ -24,7 +25,7 @@ public class AccountController extends BaseController implements BaseAttrControl
 
     @PostMapping("/create")
     @Override
-    public ResponseDto create(AccAccount accAccount,HttpServletRequest request) {
+    public ResponseDto create(AccAccount accAccount,HttpServletRequest request) throws ParamNotFindException {
         if (accAccount.getAccountName() == null) {
             notFindParams.add("accountName");
         }
@@ -36,12 +37,12 @@ public class AccountController extends BaseController implements BaseAttrControl
 
     @PostMapping("/update")
     @Override
-    public ResponseDto update(AccAccount accAccount,HttpServletRequest request) {
+    public ResponseDto update(AccAccount accAccount,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
         if (accAccount.getId() == null) {
             notFindParams.add("id");
         }
         throwParamNotFindException(request.getRequestURI());
-        return new ResponseDto(0, "修改成功", accountService.update(accAccount));
+        return new ResponseDto(0, "修改成功", accountService.update(accAccount,getLoginUser().getId()));
     }
 
     @GetMapping("/getAll")

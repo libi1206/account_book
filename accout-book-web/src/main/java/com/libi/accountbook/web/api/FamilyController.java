@@ -54,13 +54,15 @@ public class FamilyController extends BaseController implements BaseAttrControll
 
     @Override
     @RequestMapping("/getAllPage")
-    public ResponseDto getAllByPage(@RequestParam Integer rows,@RequestParam Integer page) {
+    public ResponseDto getAllByPage(@RequestParam(defaultValue = "30")Integer rows,
+                                    @RequestParam(defaultValue = "1") Integer page,HttpServletRequest request) throws ParamNotFindException {
         if (rows == null || rows <= 0) {
-            rows = 30;
+            notFindParams.add("rows");
         }
         if (page == null || page <= 0) {
-            page = 1;
+            notFindParams.add("page");
         }
+        throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "查询成功", familyService.selectByPage(rows, page, getLoginUser().getId()));
     }
 

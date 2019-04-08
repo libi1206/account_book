@@ -16,5 +16,5 @@ public interface BaseAttrController<Dto> {
 
     ResponseDto getAll();
 
-    ResponseDto getAllByPage(Integer rows, Integer page);
+    ResponseDto getAllByPage(Integer rows, Integer page,HttpServletRequest request) throws ParamNotFindException;
 }

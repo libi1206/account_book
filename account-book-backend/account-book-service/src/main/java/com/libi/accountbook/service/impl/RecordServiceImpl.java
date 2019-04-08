@@ -56,7 +56,7 @@ public class RecordServiceImpl implements RecordService {
         }
         //插入一条记录
         accTransactionRecordDAO.insertSelective(record);
-        //取出资产和小金库，修改金额后重新插入
+        //取出资产修改金额后重新插入
         AccAssets assets = assetsService.selectById(record.getAssetsId());
         Double result = assets.getMoner() + record.getAmount();
         if (result < 0) {
@@ -64,6 +64,7 @@ public class RecordServiceImpl implements RecordService {
         }
         assets.setMoner(result);
         assetsService.update(new AssetsDto(assets),userId);
+        //如果有小金库，取出小金库修改金额后再插入
         if (record.getTreasuryId() != null) {
             AccTreasury treasury = treasuryService.selectById(record.getTreasuryId());
             result = treasury.getMoner() + record.getAmount();
@@ -72,6 +73,16 @@ public class RecordServiceImpl implements RecordService {
             }
             treasury.setMoner(result);
             treasuryService.update(treasury,userId);
+        }
+        //如果对方资产是自己的资产，还要更新自己的资产
+        if (userId.equals(record.getOtherUser())) {
+            AccAssets otherAsstes = assetsService.selectById(record.getOtherAssets());
+            result = otherAsstes.getMoner() + record.getAmount();
+            if (result < 0) {
+                throw new NoMoneyException();
+            }
+            otherAsstes.setMoner(result);
+            assetsService.update(new AssetsDto(assets), userId);
         }
         return recordEntityToDto(record);
     }

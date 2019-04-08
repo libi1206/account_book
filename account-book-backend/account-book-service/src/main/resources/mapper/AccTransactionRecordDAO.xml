@@ -199,8 +199,8 @@
           and amount &lt; 0
         </when>
       </choose>
-
     </where>
+    order by create_time desc
   </select>
 
   <select id="selectRecordByFamily" parameterType="java.lang.Long" resultMap="BaseResultMap">

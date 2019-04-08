@@ -177,7 +177,7 @@
       <if test="accountId != null">
         and account_id = #{accountId}
       </if>
-      <if test="family_id != null">
+      <if test="familyId != null">
         and user_id in (
         select user_id from family_mapping where family_id = #{familyId}
         )

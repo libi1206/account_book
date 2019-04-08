@@ -72,7 +72,7 @@ public class FamilyServiceImpl implements FamilyService {
         PageHelper.startPage(page, rows);
         List<AccFamily> accFamilies = accFamilyDAO.selectAllFamilyByUser(userId);
         PageInfo<AccFamily> pageInfo = new PageInfo<>(accFamilies);
-        return new PageDto(pageInfo);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accFamilies);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class RecordController extends BaseController {
     }
 
     @PostMapping("/query")
-    public ResponseDto getAll(@RequestParam Integer rows,@RequestParam Integer page,@RequestParam RecordQueryConditionDto recordQueryConditionDto,HttpServletRequest request) {
+    public ResponseDto getAll(@RequestParam Integer rows,@RequestParam Integer page, RecordQueryConditionDto recordQueryConditionDto,HttpServletRequest request) {
         if (rows == null || rows <= 0) {
             rows = 30;
         }

@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
         PageHelper.startPage(page, rows);
         List<AccAccount> accAccounts = accAccountDAO.selectAllInUser(userId);
         PageInfo<AccAccount> pageInfo = new PageInfo<>(accAccounts);
-        return new PageDto(pageInfo);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accAccounts);
     }
 
 }

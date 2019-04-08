@@ -53,6 +53,6 @@ public class AssetsServiceImpl implements AssetsService {
         PageHelper.startPage(page, rows);
         List<AccAssets> accAssets = accAssetsDAO.selectAllInUser(userId);
         PageInfo<AccAssets> pageInfo = new PageInfo<>(accAssets);
-        return new PageDto(pageInfo);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accAssets);
     }
 }

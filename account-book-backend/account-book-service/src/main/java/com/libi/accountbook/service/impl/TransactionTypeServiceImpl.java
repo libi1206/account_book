@@ -57,6 +57,6 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
         PageHelper.startPage(page, rows);
         List<AccTransactionType> accTransactionTypes = transactionTypeDAO.selectAllByUser(userId);
         PageInfo<AccTransactionType> pageInfo = new PageInfo<>(accTransactionTypes);
-        return new PageDto(pageInfo);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accTransactionTypes);
     }
 }

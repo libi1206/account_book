@@ -136,7 +136,7 @@ public class RecordServiceImpl implements RecordService {
 
         List<RecordDto> resultList = new ArrayList<>();
         for (AccTransactionRecord record : pageInfo.getList()) {
-            resultList.add(new RecordDto(record));
+            resultList.add(recordEntityToDto(record));
         }
 
         return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),resultList);

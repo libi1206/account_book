@@ -51,6 +51,6 @@ public class TreasuryServiceImpl implements TreasuryService {
         PageHelper.startPage(page, rows);
         List<AccTreasury> accTreasuries = accTreasuryDAO.selectAllByUser(userId);
         PageInfo<AccTreasury> pageInfo = new PageInfo<>(accTreasuries);
-        return new PageDto(pageInfo);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accTreasuries);
     }
 }

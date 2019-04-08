@@ -1,7 +1,5 @@
 package com.libi.accountbook.dto;
 
-import com.github.pagehelper.PageInfo;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -21,13 +19,6 @@ public class PageDto implements Serializable {
         this.nowPage = nowPage;
         this.allPage = allPage;
         this.list = list;
-    }
-
-    public PageDto(PageInfo pageInfo) {
-        setRows(pageInfo.getPageSize());
-        setNowPage(pageInfo.getPageNum());
-        setAllPage(pageInfo.getPages());
-        setList(pageInfo.getList());
     }
 
     public Integer getRows() {

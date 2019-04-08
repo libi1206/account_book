@@ -21,13 +21,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-import static com.libi.accountbook.web.constant.FileConct.*;
+import static com.libi.accountbook.web.constant.UrlConst.*;
 
 /**
  * @author libi
  */
 @RestController
-@RequestMapping("/file")
+@RequestMapping(FILE_ROOT)
 @PropertySource("classpath:file-path.properties")
 public class FileController extends BaseController {
     @Reference
@@ -65,7 +65,7 @@ public class FileController extends BaseController {
         logger.info(" 新文件名：" + fileName);
         String realPath;
         if (StringUtils.isEmpty(imageFilePath)) {
-            realPath = request.getSession().getServletContext().getRealPath(URL_PREFIX);
+            realPath = request.getSession().getServletContext().getRealPath(FILE_URL_PREFIX);
         } else {
             realPath = imageFilePath;
         }
@@ -78,10 +78,10 @@ public class FileController extends BaseController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("URL路径：" + URL_PREFIX + fileName);
+        logger.info("URL路径：" + FILE_URL_PREFIX + fileName);
         logger.info("本机路径：" + dest.getPath());
         UserDto loginUser = getLoginUser();
-        loginUser.setHeadImg(URL_PREFIX + fileName);
+        loginUser.setHeadImg(FILE_URL_PREFIX + fileName);
         UserDto userDto = userService.updateById(loginUser);
         return new ResponseDto(0, "修改头像成功", userDto);
 

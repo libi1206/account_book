@@ -50,6 +50,18 @@ public class FamilyController extends BaseController implements BaseAttrControll
         return new ResponseDto(0,"查询成功",familyService.selectAll(getLoginUser().getId()));
     }
 
+    @Override
+    @RequestMapping("/getAllPage")
+    public ResponseDto getAllByPage(@RequestParam Integer rows,@RequestParam Integer page) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        return new ResponseDto(0, "查询成功", familyService.selectByPage(rows, page, getLoginUser().getId()));
+    }
+
     /**
      * 加入一个家庭
      * @param familyId

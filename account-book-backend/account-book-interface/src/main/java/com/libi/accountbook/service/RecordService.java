@@ -1,5 +1,6 @@
 package com.libi.accountbook.service;
 
+import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.RecordDto;
 import com.libi.accountbook.dto.RecordQueryConditionDto;
 import com.libi.accountbook.entity.AccTransactionRecord;
@@ -30,14 +31,8 @@ public interface RecordService {
      * @param recordQueryConditionDto
      * @return
      */
-    List<RecordDto> selectByCondition(RecordQueryConditionDto recordQueryConditionDto,Long userId);
+    PageDto selectByCondition(Integer page, Integer rows, RecordQueryConditionDto recordQueryConditionDto, Long userId);
 
-    /**
-     * 查询当前用户的所有记录
-     * @param userId
-     * @return
-     */
-    List<RecordDto> selectByUser(Long userId);
     /**
      * 通过Id修改一条记录
      * @return

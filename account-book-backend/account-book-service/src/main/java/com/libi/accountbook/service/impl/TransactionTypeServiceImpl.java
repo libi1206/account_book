@@ -1,8 +1,12 @@
 package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccTransactionTypeDAO;
+import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.TransactionTypeDto;
+import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTransactionType;
 import com.libi.accountbook.service.TransactionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +52,11 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
         return transactionTypeDAO.selectAllByUser(userId);
     }
 
+    @Override
+    public PageDto selectByPage(Integer rows, Integer page, Long userId) {
+        PageHelper.startPage(page, rows);
+        List<AccTransactionType> accTransactionTypes = transactionTypeDAO.selectAllByUser(userId);
+        PageInfo<AccTransactionType> pageInfo = new PageInfo<>(accTransactionTypes);
+        return new PageDto(pageInfo);
+    }
 }

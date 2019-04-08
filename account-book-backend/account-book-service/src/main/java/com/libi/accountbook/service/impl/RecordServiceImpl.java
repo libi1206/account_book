@@ -1,8 +1,11 @@
 package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccTransactionRecordDAO;
 import com.libi.accountbook.dto.AssetsDto;
+import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.RecordDto;
 import com.libi.accountbook.dto.RecordQueryConditionDto;
 import com.libi.accountbook.entity.AccAssets;
@@ -46,7 +49,9 @@ public class RecordServiceImpl implements RecordService {
     @Transactional(rollbackFor = Exception.class)
     public RecordDto insertRecord(AccTransactionRecord record, Long userId) {
         record.setUserId(userId);
-        record.setCreateTime(System.currentTimeMillis());
+        if (record.getCreateTime() != null) {
+            record.setCreateTime(System.currentTimeMillis());
+        }
         //插入一条记录
         accTransactionRecordDAO.insertSelective(record);
         //取出资产和小金库，修改金额后重新插入
@@ -120,37 +125,21 @@ public class RecordServiceImpl implements RecordService {
      * @return 查询结果
      */
     @Override
-    public List<RecordDto> selectByCondition(RecordQueryConditionDto recordQueryConditionDto, Long userId) {
-        // 先查出和家庭相关的交易记录
+    public PageDto selectByCondition(Integer page, Integer rows, RecordQueryConditionDto recordQueryConditionDto, Long userId) {
         recordQueryConditionDto.setUserId(userId);
-        List<AccTransactionRecord> familyRecordList = null;
-        if (recordQueryConditionDto.getFamilyId() != null) {
-            familyRecordList = accTransactionRecordDAO.selectRecordByFamily(recordQueryConditionDto.getFamilyId());
-        }
-        //再查出满足其他条件的记录
+        //开启分页
+        PageHelper.startPage(page, rows);
+        //查出满足其他条件的记录
         List<AccTransactionRecord> recordList = accTransactionRecordDAO.selectByCondition(recordQueryConditionDto);
-        //再取交集
+        PageInfo<AccTransactionRecord> pageInfo = new PageInfo<>(recordList);
+
+
         List<RecordDto> resultList = new ArrayList<>();
-        if (familyRecordList != null) {
-            for (AccTransactionRecord record : recordList) {
-                for (AccTransactionRecord familyRecord : familyRecordList) {
-                    if (record.equals(familyRecord)) {
-                        resultList.add(recordEntityToDto(record));
-                    }
-                }
-            }
-        } else {
-            for (AccTransactionRecord record : recordList) {
-                resultList.add(recordEntityToDto(record));
-            }
+        for (AccTransactionRecord record : pageInfo.getList()) {
+            resultList.add(new RecordDto(record));
         }
 
-        return resultList;
-    }
-
-    @Override
-    public List<RecordDto> selectByUser(Long userId) {
-        return selectByCondition(new RecordQueryConditionDto(), userId);
+        return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),resultList);
     }
 
     /**

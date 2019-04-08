@@ -8,6 +8,7 @@ import com.libi.accountbook.service.TransactionTypeService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,5 +79,17 @@ public class TransactionTypeController extends BaseController implements BaseAtt
             }
         }
         return new ResponseDto(0, "查询成功", dtoList);
+    }
+
+    @Override
+    @RequestMapping("/getAllPage")
+    public ResponseDto getAllByPage(@RequestParam Integer rows,@RequestParam Integer page) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        return new ResponseDto(0, "查询成功", transactionTypeService.selectByPage(rows, page, getLoginUser().getId()));
     }
 }

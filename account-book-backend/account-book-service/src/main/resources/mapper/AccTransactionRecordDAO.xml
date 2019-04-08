@@ -177,8 +177,19 @@
       <if test="accountId != null">
         and account_id = #{accountId}
       </if>
+      <if test="family_id != null">
+        and user_id in (
+        select user_id from family_mapping where family_id = #{familyId}
+        )
+      </if>
       <if test="treasuryId != null">
         and treasury_id = #{treasuryId}
+      </if>
+      <if test="startTime != null">
+        and create_time &gt; #{startTime}
+      </if>
+      <if test="endTime != null">
+        and create_time &lt; #{endTime}
       </if>
       <choose>
         <when test="income == true">
@@ -196,8 +207,8 @@
     select
     <include refid="Base_Column_List"/>
     from acc_transaction_record
-    where user_id in {
-      select user_id from family_mapping where family_id = #{familyId}
-    }
+    where user_id in (
+    select user_id from family_mapping where family_id = #{familyId}
+    )
   </select>
 </mapper>

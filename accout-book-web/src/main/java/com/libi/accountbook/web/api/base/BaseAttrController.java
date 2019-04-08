@@ -13,4 +13,6 @@ public interface BaseAttrController<Dto> {
     ResponseDto update(Dto dto,HttpServletRequest request);
 
     ResponseDto getAll();
+
+    ResponseDto getAllByPage(Integer rows, Integer page);
 }

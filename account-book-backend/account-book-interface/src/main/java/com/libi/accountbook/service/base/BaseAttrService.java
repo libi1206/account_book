@@ -1,5 +1,7 @@
 package com.libi.accountbook.service.base;
 
+import com.libi.accountbook.dto.PageDto;
+
 import java.util.List;
 
 /**
@@ -13,4 +15,6 @@ public interface BaseAttrService<Dto,Entity> {
     Entity selectById(Long entityId);
 
     List<Entity> selectAll(Long userId);
+
+    PageDto selectByPage(Integer rows, Integer page, Long userId);
 }

@@ -32,5 +32,10 @@ public class UrlConst {
     public static final String TREASURY_ROOT = "/treasury";
     public static final String TYPE_ROOT = "/type";
     public static final String RECORD_ROOT = "/record";
+    public static final String FILE_ROOT = "/file";
     public static final String ERROR_ROOT = "/error";
+
+    /**文件存放前缀*/
+    public static final String FILE_URL_PREFIX = "/head/";
+
 }

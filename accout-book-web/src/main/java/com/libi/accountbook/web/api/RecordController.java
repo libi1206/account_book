@@ -41,7 +41,6 @@ public class RecordController extends BaseController {
         }
         throwParamNotFindException(request.getRequestURI());
         recordDto.setId(null);
-        recordDto.setCreateTime(null);
         return new ResponseDto(0, "添加记录成功", recordService.insertRecord(recordDto, getLoginUser().getId()));
     }
 
@@ -58,7 +57,14 @@ public class RecordController extends BaseController {
     }
 
     @PostMapping("/query")
-    public ResponseDto getAll(RecordQueryConditionDto recordQueryConditionDto) {
-        return new ResponseDto(0, "查询成功", recordService.selectByCondition(recordQueryConditionDto, getLoginUser().getId()));
+    public ResponseDto getAll(@RequestParam Integer rows,@RequestParam Integer page,@RequestParam RecordQueryConditionDto recordQueryConditionDto,HttpServletRequest request) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        throwParamNotFindException(request.getRequestURI());
+        return new ResponseDto(0, "查询成功", recordService.selectByCondition(page,rows,recordQueryConditionDto, getLoginUser().getId()));
     }
 }

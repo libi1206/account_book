@@ -74,7 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(TREASURY_ROOT+"/**").authenticated()
                     .antMatchers(TYPE_ROOT+"/**").authenticated()
                     .antMatchers(RECORD_ROOT+"/**").authenticated()
-                    .antMatchers("file/**").authenticated()
+                    .antMatchers(FILE_ROOT+"/**").authenticated()
 
 
 

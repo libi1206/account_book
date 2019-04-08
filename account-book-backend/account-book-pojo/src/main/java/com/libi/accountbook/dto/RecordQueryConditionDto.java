@@ -18,6 +18,9 @@ public class RecordQueryConditionDto implements Serializable {
     private Long familyId;
     private Long treasuryId;
     private Boolean income;
+    private Long startTime;
+    private Long endTime;
+    private Long createTime;
 
     public Long getOtherAssetsId() {
         return otherAssetsId;
@@ -89,5 +92,29 @@ public class RecordQueryConditionDto implements Serializable {
 
     public void setIncome(Boolean income) {
         this.income = income;
+    }
+
+    public Long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 }

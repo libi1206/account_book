@@ -55,4 +55,16 @@ public class AssetsController extends BaseController implements BaseAttrControll
         return new ResponseDto(0,"查询成功",assetsService.selectAll(getLoginUser().getId()));
     }
 
+    @Override
+    @RequestMapping("/getAllPage")
+    public ResponseDto getAllByPage(@RequestParam Integer rows,@RequestParam Integer page) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        return new ResponseDto(0, "查询成功", assetsService.selectByPage(rows, page, getLoginUser().getId()));
+
+    }
 }

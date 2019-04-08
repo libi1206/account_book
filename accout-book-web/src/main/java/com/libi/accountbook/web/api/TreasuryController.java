@@ -6,10 +6,7 @@ import com.libi.accountbook.entity.AccTreasury;
 import com.libi.accountbook.service.TreasuryService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,5 +48,17 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     @GetMapping("getAll")
     public ResponseDto getAll() {
         return new ResponseDto(0,"查询成功",treasuryService.selectAll(getLoginUser().getId()));
+    }
+
+    @Override
+    @RequestMapping("/getAllPage")
+    public ResponseDto getAllByPage(@RequestParam Integer rows, @RequestParam Integer page) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        return new ResponseDto(0, "查询成功", treasuryService.selectByPage(rows, page, getLoginUser().getId()));
     }
 }

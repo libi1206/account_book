@@ -7,10 +7,7 @@ import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.AccountService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -51,5 +48,17 @@ public class AccountController extends BaseController implements BaseAttrControl
     @Override
     public ResponseDto getAll() {
         return new ResponseDto(0, "查询成功", accountService.selectAll(getLoginUser().getId()));
+    }
+
+    @Override
+    @RequestMapping("/getAllPage")
+    public ResponseDto getAllByPage(@RequestParam Integer rows,@RequestParam Integer page) {
+        if (rows == null || rows <= 0) {
+            rows = 30;
+        }
+        if (page == null || page <= 0) {
+            page = 1;
+        }
+        return new ResponseDto(0, "查询成功", accountService.selectByPage(rows, page, getLoginUser().getId()));
     }
 }

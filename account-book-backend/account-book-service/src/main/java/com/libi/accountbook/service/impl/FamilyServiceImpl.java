@@ -1,11 +1,15 @@
 package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccFamilyDAO;
 import com.libi.accountbook.dao.AccUserDAO;
 import com.libi.accountbook.dao.FamilyMappingDAO;
 import com.libi.accountbook.dto.FamilyDto;
+import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.UserDto;
+import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccFamily;
 import com.libi.accountbook.entity.AccUser;
 import com.libi.accountbook.entity.FamilyMappingKey;
@@ -61,6 +65,14 @@ public class FamilyServiceImpl implements FamilyService {
     @Transactional(rollbackFor = Exception.class)
     public List<AccFamily> selectAll(Long userId) {
         return accFamilyDAO.selectAllFamilyByUser(userId);
+    }
+
+    @Override
+    public PageDto selectByPage(Integer rows, Integer page, Long userId) {
+        PageHelper.startPage(page, rows);
+        List<AccFamily> accFamilies = accFamilyDAO.selectAllFamilyByUser(userId);
+        PageInfo<AccFamily> pageInfo = new PageInfo<>(accFamilies);
+        return new PageDto(pageInfo);
     }
 
     @Override

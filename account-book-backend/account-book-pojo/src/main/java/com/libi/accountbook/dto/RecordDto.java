@@ -10,8 +10,8 @@ import java.io.Serializable;
 public class RecordDto implements Serializable {
     private Long id;
     private AccAssets assetsId;
-    private AccUser user;
-    private AccUser otherUser;
+    private UserDto user;
+    private UserDto otherUser;
     private AccAssets otherAssets;
     private AccTransactionType type;
     private AccAccount account;
@@ -48,20 +48,20 @@ public class RecordDto implements Serializable {
         this.assetsId = assetsId;
     }
 
-    public AccUser getUser() {
+    public UserDto getUser() {
         return user;
     }
 
     public void setUser(AccUser user) {
-        this.user = user;
+        this.user = new UserDto(user);
     }
 
-    public AccUser getOtherUser() {
+    public UserDto getOtherUser() {
         return otherUser;
     }
 
     public void setOtherUser(AccUser otherUser) {
-        this.otherUser = otherUser;
+        this.otherUser = new UserDto(otherUser);
     }
 
     public AccAssets getOtherAssets() {

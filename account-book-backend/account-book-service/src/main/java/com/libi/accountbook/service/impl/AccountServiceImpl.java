@@ -1,7 +1,10 @@
 package com.libi.accountbook.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccAccountDAO;
+import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.entity.AccAccount;
 import com.libi.accountbook.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +44,13 @@ public class AccountServiceImpl implements AccountService {
     public List<AccAccount> selectAll(Long userId) {
         return accAccountDAO.selectAllInUser(userId);
     }
+
+    @Override
+    public PageDto selectByPage(Integer rows, Integer page, Long userId) {
+        PageHelper.startPage(page, rows);
+        List<AccAccount> accAccounts = accAccountDAO.selectAllInUser(userId);
+        PageInfo<AccAccount> pageInfo = new PageInfo<>(accAccounts);
+        return new PageDto(pageInfo);
+    }
+
 }

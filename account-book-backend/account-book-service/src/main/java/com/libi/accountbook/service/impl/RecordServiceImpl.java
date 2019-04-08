@@ -77,7 +77,7 @@ public class RecordServiceImpl implements RecordService {
         //如果对方资产是自己的资产，还要更新自己的资产
         if (userId.equals(record.getOtherUser())) {
             AccAssets otherAsstes = assetsService.selectById(record.getOtherAssets());
-            result = otherAsstes.getMoner() + record.getAmount();
+            result = otherAsstes.getMoner() - record.getAmount();
             if (result < 0) {
                 throw new NoMoneyException();
             }

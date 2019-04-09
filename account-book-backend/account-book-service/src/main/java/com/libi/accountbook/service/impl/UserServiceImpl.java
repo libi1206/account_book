@@ -46,4 +46,9 @@ public class UserServiceImpl implements UserService {
         return new UserDto(accUserDAO.selectByPrimaryKey(user.getId()));
     }
 
+    @Override
+    public void deleteById(Long userId) {
+        accUserDAO.deleteByPrimaryKey(userId);
+    }
+
 }

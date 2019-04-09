@@ -65,4 +65,10 @@ public class TreasuryController extends BaseController implements BaseAttrContro
         throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "查询成功", treasuryService.selectByPage(rows, page, getLoginUser().getId()));
     }
+
+    @GetMapping("/delete")
+    @Override
+    public ResponseDto deleteById(@RequestParam Long id) throws AttrNotLoginUserException {
+        return new ResponseDto(0, "删除成功", treasuryService.deleteById(id, getLoginUser().getId()));
+    }
 }

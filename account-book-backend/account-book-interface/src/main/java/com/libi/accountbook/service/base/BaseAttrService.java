@@ -18,4 +18,6 @@ public interface BaseAttrService<Dto,Entity> {
     List<Entity> selectAll(Long userId);
 
     PageDto selectByPage(Integer rows, Integer page, Long userId);
+
+    Entity deleteById(Long id, Long userId) throws AttrNotLoginUserException;
 }

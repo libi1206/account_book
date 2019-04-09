@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.libi.accountbook.dao.AccTransactionTypeDAO;
 import com.libi.accountbook.dto.PageDto;
 import com.libi.accountbook.dto.TransactionTypeDto;
+import com.libi.accountbook.entity.AccAccount;
 import com.libi.accountbook.entity.AccAssets;
 import com.libi.accountbook.entity.AccTransactionType;
 import com.libi.accountbook.exception.AttrNotLoginUserException;
@@ -64,5 +65,15 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
         List<AccTransactionType> accTransactionTypes = transactionTypeDAO.selectAllByUser(userId);
         PageInfo<AccTransactionType> pageInfo = new PageInfo<>(accTransactionTypes);
         return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accTransactionTypes);
+    }
+
+    @Override
+    public AccTransactionType deleteById(Long id, Long userId) throws AttrNotLoginUserException {
+        AccTransactionType accTransactionType = selectById(id);
+        if (accTransactionType == null || !accTransactionType.getUserId().equals(userId)) {
+            throw new AttrNotLoginUserException();
+        }
+        transactionTypeDAO.deleteByPrimaryKey(id);
+        return accTransactionType;
     }
 }

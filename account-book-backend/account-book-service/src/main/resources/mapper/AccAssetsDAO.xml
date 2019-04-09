@@ -26,8 +26,10 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    SET foreign_key_checks = 0;
     delete from acc_assets
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT};
+    SET foreign_key_checks = 1;
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccAssets" useGeneratedKeys="true">
     insert into acc_assets (user_id, assets_name, moner, 

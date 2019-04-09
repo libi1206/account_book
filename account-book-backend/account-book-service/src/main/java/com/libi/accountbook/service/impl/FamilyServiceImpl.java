@@ -83,6 +83,13 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     @Override
+    public AccFamily deleteById(Long id, Long userId) throws AttrNotLoginUserException {
+        AccFamily family = selectById(id);
+        familyMappingDAO.deleteByPrimaryKey(id);
+        return family;
+    }
+
+    @Override
     public List<UserDto> selectAllUserByFamily(Long familyId) {
         List<AccUser> selectList = accUserDAO.selectAllUserByFamily(familyId);
         List<UserDto> dtoList = new ArrayList<>();

@@ -62,4 +62,14 @@ public class AssetsServiceImpl implements AssetsService {
         PageInfo<AccAssets> pageInfo = new PageInfo<>(accAssets);
         return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accAssets);
     }
+
+    @Override
+    public AccAssets deleteById(Long id, Long userId) throws AttrNotLoginUserException {
+        AccAssets assets = selectById(id);
+        if (assets == null || !assets.getUserId().equals(userId)) {
+            throw new AttrNotLoginUserException();
+        }
+        accAssetsDAO.deleteByPrimaryKey(id);
+        return assets;
+    }
 }

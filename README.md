@@ -17,7 +17,21 @@
 + 消息队列：Kafka
 + 数据库：MySql
 
-### 3. 各个服务配置情况汇总
+### 3. 如何通过源码安装这个应用
+* 这是一个SpringBoot应用，因此在安装和打包的时候必须要安装Java环境和Maven
+* 这个应用关闭了静态文件映射，使用Nginx做动静分离，因此这个应用需要使用安装Nginx，正确配置并且修改account-book/accout-book-web/src/main/resources/file-path.properties下的头像存储路径。注意，为了和url对应，最后一个文件夹的名字必须要叫/head
+* 修改account-book/account-book-backend/account-book-service/src/main/resource/application.yml下的各种环境，包括Zookeeper、Redis所在IP和端口
+* 使用Maven在项目根路径下运行如下命令
+```
+mvn install
+mvn clean package
+```
+* 然后就可以在account-book/account-book-backend/account-book-service/target和account-book/accout-book-web/target里看见这两个jar包，使用下面的命令就可以正确运行整个应用
+```
+java -jar xxx.jar
+```
+
+### 3. 各个服务默认配置情况汇总
 + Zookeeper 
     * 192.168.3.203:2181
 + Redis
@@ -33,10 +47,13 @@
 + 消息队列
     * 
     
-### 3. 需要解决的问题（已知的BUG）
+### 4. 需要解决的问题（已知的BUG）
 
-* 所有的属性实体都还没有删除的方法
+* ~~所有的属性实体都还没有删除的方法~~
+    * 在数据库的连接参数上使用allowMultiQueries=true来执行多条语句
+    * 在删除时加入 SET foreign_key_checks = 0; 来忽视外键约束
 * 用户上传的头像更新后还没有删除旧的
+* 用户退出家庭后需要做检测，如果这个家庭没有任何用户了，则删除这个用户
 * 创建用户的时候需要自动创建一个账本
 * 需要创建默认的分类，所有的用户都可以使用这个分类
 * ~~需要过滤不规范的操作，抛出对应的异常码~~
@@ -71,3 +88,19 @@
 * 登陆时用户名没有区分大小写
 * ~~查询交易记录按照创建时间顺序查找~~
     * 在SELECT语句上添加ORDER BY语句
+* ~~还没有配置共享Session~~
+    * 配置如下,只需要在pom文件里添加如下的依赖就好了（同时也需要redis的starter依赖和jedis依赖）
+    
+    ```
+    <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-data-redis</artifactId>
+    </dependency>
+    ```
+    
+ ### 5. 架构上需要改进的问题
+正常的编码是7成时间用在架构和分析需求上，3成的时间用在编码上。由于我经验不足，经过草草沟通和分析就开始编码，这导致了我在代码的一致性和整洁上做的不够.具体的问题体现在下面的方面
+* 前期由于缺乏规划，DTO类和Entity类的乱用导致代码很乱
+* 没有意识到很多Service类都有怎删改查的的方法，没有把公共的方法提出成模板，导致后面重构了很多遍
+* 由于前期规划不足没有意识到AOP的注解代理导致很多方法的固定前置方法没有被提出来，导致重复代码很多
+ 

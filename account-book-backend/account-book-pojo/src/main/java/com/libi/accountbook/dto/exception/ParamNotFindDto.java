@@ -20,6 +20,11 @@ public class ParamNotFindDto extends BaseExceptionDto implements Serializable {
         setParamsName(e.getParamsName());
     }
 
+    public ParamNotFindDto(String uri, Long currentTime, String paramsName) {
+        super(uri, currentTime);
+        this.paramsName.add(paramsName);
+    }
+
     public List<String> getParamsName() {
         return paramsName;
     }

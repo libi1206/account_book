@@ -17,4 +17,6 @@ public interface BaseAttrController<Dto> {
     ResponseDto getAll();
 
     ResponseDto getAllByPage(Integer rows, Integer page,HttpServletRequest request) throws ParamNotFindException;
+
+    ResponseDto deleteById(Long id) throws AttrNotLoginUserException;
 }

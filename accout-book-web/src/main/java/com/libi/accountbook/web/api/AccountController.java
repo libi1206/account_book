@@ -64,4 +64,10 @@ public class AccountController extends BaseController implements BaseAttrControl
         throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "查询成功", accountService.selectByPage(rows, page, getLoginUser().getId()));
     }
+
+    @GetMapping("/delete")
+    @Override
+    public ResponseDto deleteById(@RequestParam Long id) throws AttrNotLoginUserException {
+        return new ResponseDto(0, "删除成功", accountService.deleteById(id, getLoginUser().getId()));
+    }
 }

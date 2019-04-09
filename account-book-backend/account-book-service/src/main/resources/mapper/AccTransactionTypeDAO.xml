@@ -20,8 +20,10 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    SET foreign_key_checks = 0;
     delete from acc_transaction_type
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT};
+    SET foreign_key_checks = 1;
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.libi.accountbook.entity.AccTransactionType" useGeneratedKeys="true">
     insert into acc_transaction_type (user_id, parent_id, type_name, income,

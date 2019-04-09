@@ -67,6 +67,17 @@ public class FamilyController extends BaseController implements BaseAttrControll
     }
 
     /**
+     * 只是为了不报错，家庭不直接提供删除家庭的方法
+     * @param id
+     * @return
+     * @throws AttrNotLoginUserException
+     */
+    @Override
+    public ResponseDto deleteById(Long id) throws AttrNotLoginUserException {
+        return null;
+    }
+
+    /**
      * 加入一个家庭
      * @param familyId
      * @return

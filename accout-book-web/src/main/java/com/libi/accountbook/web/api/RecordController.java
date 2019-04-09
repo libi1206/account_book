@@ -9,10 +9,7 @@ import com.libi.accountbook.exception.NoMoneyException;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.RecordService;
 import com.libi.accountbook.web.api.base.BaseController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 

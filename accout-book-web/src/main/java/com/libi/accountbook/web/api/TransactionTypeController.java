@@ -9,6 +9,7 @@ import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.TransactionTypeService;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -95,5 +96,11 @@ public class TransactionTypeController extends BaseController implements BaseAtt
         }
         throwParamNotFindException(request.getRequestURI());
         return new ResponseDto(0, "查询成功", transactionTypeService.selectByPage(rows, page, getLoginUser().getId()));
+    }
+
+    @GetMapping("/delete")
+    @Override
+    public ResponseDto deleteById(@RequestParam Long id) throws AttrNotLoginUserException {
+        return new ResponseDto(0, "删除成功", transactionTypeService.deleteById(id, getLoginUser().getId()));
     }
 }

@@ -61,4 +61,14 @@ public class AccountServiceImpl implements AccountService {
         return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accAccounts);
     }
 
+    @Override
+    public AccAccount deleteById(Long id, Long userId) throws AttrNotLoginUserException {
+        AccAccount accAccount = selectById(id);
+        if (accAccount == null || !accAccount.getUserId().equals(userId)) {
+            throw new AttrNotLoginUserException();
+        }
+        accAccountDAO.deleteByPrimaryKey(id);
+        return accAccount;
+    }
+
 }

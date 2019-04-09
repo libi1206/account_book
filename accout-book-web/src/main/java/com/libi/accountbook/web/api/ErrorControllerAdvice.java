@@ -10,6 +10,8 @@ import com.libi.accountbook.exception.ParamNotFindException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -25,15 +27,26 @@ import static com.libi.accountbook.web.constant.UrlConst.ERROR_ROOT;
 public class ErrorControllerAdvice implements ErrorController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @ExceptionHandler(value = ParamNotFindException.class)
-    public ResponseDto paramErrorHandler(ParamNotFindException exception) {
-        return new ResponseDto(10001, "未找到必要的参数！", new ParamNotFindDto(exception));
+    @ExceptionHandler(value = {ParamNotFindException.class,MissingServletRequestParameterException.class})
+    public ResponseDto paramErrorHandler(ParamNotFindException myParamNotFind,MissingServletRequestParameterException paramNotFind,HttpServletRequest request) {
+        BaseExceptionDto exceptionDto = null;
+        if (myParamNotFind != null) {
+            exceptionDto = new ParamNotFindDto(myParamNotFind);
+        } else {
+            exceptionDto = new ParamNotFindDto(request.getRequestURI(), System.currentTimeMillis(), paramNotFind.getParameterName());
+        }
+        return new ResponseDto(10001, "未找到必要的参数！", exceptionDto);
     }
 
     @ExceptionHandler(value = NoHandlerFoundException.class)
     public ResponseDto notFindErrorHandler(HttpServletRequest request) {
         logger.warn("访问404,uri:"+request.getRequestURI());
         return new ResponseDto(10003, "找不到对应的响应，可能是请求的url有误", new BaseExceptionDto(request.getRequestURI(),System.currentTimeMillis()));
+    }
+
+    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
+    public ResponseDto httpRequestMethodNotSupportedErrorHandler(HttpServletRequest request) {
+        return new ResponseDto(10002, "请求方法不被允许", new BaseExceptionDto(request.getRequestURI(), System.currentTimeMillis()));
     }
 
     @ExceptionHandler(value = AttrNotLoginUserException.class)

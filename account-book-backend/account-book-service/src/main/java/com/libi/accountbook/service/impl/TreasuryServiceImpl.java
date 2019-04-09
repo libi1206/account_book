@@ -58,4 +58,14 @@ public class TreasuryServiceImpl implements TreasuryService {
         PageInfo<AccTreasury> pageInfo = new PageInfo<>(accTreasuries);
         return new PageDto(pageInfo.getPageSize(),pageInfo.getPageNum(),pageInfo.getPages(),accTreasuries);
     }
+
+    @Override
+    public AccTreasury deleteById(Long id, Long userId) throws AttrNotLoginUserException {
+        AccTreasury accTreasury = selectById(id);
+        if (accTreasury == null || !accTreasury.getUserId().equals(userId)) {
+            throw new AttrNotLoginUserException();
+        }
+        accTreasuryDAO.deleteByPrimaryKey(id);
+        return accTreasury;
+    }
 }

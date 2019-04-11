@@ -6,11 +6,14 @@ import com.libi.accountbook.entity.AccTreasury;
 import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.TreasuryService;
+import com.libi.accountbook.web.anno.CheckToken;
+import com.libi.accountbook.web.anno.RedisTransaction;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static com.libi.accountbook.web.constant.UrlConst.TREASURY_ROOT;
 /**
@@ -23,8 +26,9 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     private TreasuryService treasuryService;
 
     @Override
+    @CheckToken
     @PostMapping("/create")
-    public ResponseDto create(AccTreasury accTreasury, HttpServletRequest request) throws ParamNotFindException {
+    public ResponseDto create(AccTreasury accTreasury, HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (accTreasury.getTreasuryName() == null) {
             notFindParams.add("treasuryName");
         }
@@ -37,8 +41,9 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     }
 
     @Override
+    @CheckToken
     @PostMapping("/update")
-    public ResponseDto update(AccTreasury accTreasury, HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
+    public ResponseDto update(AccTreasury accTreasury, HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException, AttrNotLoginUserException {
         if (accTreasury.getId() == null) {
             notFindParams.add("id");
         }
@@ -47,15 +52,17 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     }
 
     @Override
+    @CheckToken
     @GetMapping("getAll")
-    public ResponseDto getAll() {
+    public ResponseDto getAll(HttpServletRequest request, HttpServletResponse response) {
         return new ResponseDto(0,"查询成功",treasuryService.selectAll(getLoginUser().getId()));
     }
 
     @Override
+    @CheckToken
     @RequestMapping("/getAllPage")
     public ResponseDto getAllByPage(@RequestParam(defaultValue = "30") Integer rows,
-                                    @RequestParam(defaultValue = "1")  Integer page,HttpServletRequest request) throws ParamNotFindException {
+                                    @RequestParam(defaultValue = "1")  Integer page,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (rows == null || rows <= 0) {
             notFindParams.add("rows");
         }
@@ -67,8 +74,9 @@ public class TreasuryController extends BaseController implements BaseAttrContro
     }
 
     @GetMapping("/delete")
+    @CheckToken
     @Override
-    public ResponseDto deleteById(@RequestParam Long id) throws AttrNotLoginUserException {
+    public ResponseDto deleteById(@RequestParam Long id,HttpServletRequest request, HttpServletResponse response) throws AttrNotLoginUserException {
         return new ResponseDto(0, "删除成功", treasuryService.deleteById(id, getLoginUser().getId()));
     }
 }

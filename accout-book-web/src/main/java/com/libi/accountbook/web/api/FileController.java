@@ -5,6 +5,7 @@ import com.libi.accountbook.dto.ResponseDto;
 import com.libi.accountbook.dto.UserDto;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.UserService;
+import com.libi.accountbook.web.anno.CheckToken;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
@@ -29,7 +31,7 @@ import static com.libi.accountbook.web.constant.UrlConst.*;
  */
 @RestController
 @RequestMapping(FILE_ROOT)
-@PropertySource("classpath:file-path.properties")
+@PropertySource("classpath:app-param.properties")
 public class FileController extends BaseController {
     @Reference
     private UserService userService;
@@ -45,7 +47,8 @@ public class FileController extends BaseController {
      * @return
      */
     @PostMapping(value = "/imgUpload")
-    public ResponseDto fileUpload(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request) throws ParamNotFindException {
+    @CheckToken
+    public ResponseDto fileUpload(@RequestParam(value = "file") MultipartFile file, HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (file == null) {
             notFindParams.add("file");
         }

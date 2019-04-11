@@ -15,8 +15,8 @@ public class ParamNotFindException extends BaseException {
     public ParamNotFindException() {
     }
 
-    public ParamNotFindException(String uri, Long currentTime, String message) {
-        super(uri, currentTime, message);
+    public ParamNotFindException(String uri, Long currentTime) {
+        super(uri, currentTime);
     }
 
     public List<String> getParamsName() {

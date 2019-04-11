@@ -19,7 +19,7 @@
 
 ### 3. 如何通过源码安装这个应用
 * 这是一个SpringBoot应用，因此在安装和打包的时候必须要安装Java环境和Maven
-* 这个应用关闭了静态文件映射，使用Nginx做动静分离，因此这个应用需要使用安装Nginx，正确配置并且修改account-book/accout-book-web/src/main/resources/file-path.properties下的头像存储路径。注意，为了和url对应，最后一个文件夹的名字必须要叫/head
+* 这个应用关闭了静态文件映射，使用Nginx做动静分离，因此这个应用需要使用安装Nginx，正确配置并且修改account-book/accout-book-web/src/main/resources/app-param.properties下的头像存储路径。注意，为了和url对应，最后一个文件夹的名字必须要叫/head
 * 修改account-book/account-book-backend/account-book-service/src/main/resource/application.yml下的各种环境，包括Zookeeper、Redis所在IP和端口
 * 使用Maven在项目根路径下运行如下命令
 ```
@@ -37,12 +37,12 @@ java -jar xxx.jar
 + Redis
     * 192.168.3.203:6379
 + 项目的Service提供者  
-    * 127.0.0.1:20880
+    * 127.0.0.1:20881
 + 项目的Web表现层
     * 127.0.0.1:8081
 + Dubbo监控中心
     * 192.168.3.203:8080
-+ MySql数据库
++ MySQL数据库
     * 127.0.0.1:3306/money2
 + 消息队列
     * 
@@ -50,10 +50,10 @@ java -jar xxx.jar
 ### 4. 需要解决的问题（已知的BUG）
 
 * ~~所有的属性实体都还没有删除的方法~~
-    * 在数据库的连接参数上使用allowMultiQueries=true来执行多条语句
-    * 在删除时加入 SET foreign_key_checks = 0; 来忽视外键约束
+    * 在数据库的连接参数上使用`allowMultiQueries=true`来一次性执行多条语句
+    * 在删除时加入 `SET foreign_key_checks = 0;` 来忽视外键约束
 * 用户上传的头像更新后还没有删除旧的
-* 用户退出家庭后需要做检测，如果这个家庭没有任何用户了，则删除这个用户
+* 用户退出家庭后需要做检测，如果这个家庭没有任何用户了，则删除这个家庭
 * 创建用户的时候需要自动创建一个账本
 * 需要创建默认的分类，所有的用户都可以使用这个分类
 * ~~需要过滤不规范的操作，抛出对应的异常码~~
@@ -84,7 +84,7 @@ java -jar xxx.jar
 * ~~还没有做按时间查询~~ 
     * 已解决
 * ~~还没有做（测试）自己的资产转账给自己的资产的操作~~
-    * 以解决
+    * 已解决
 * 登陆时用户名没有区分大小写
 * ~~查询交易记录按照创建时间顺序查找~~
     * 在SELECT语句上添加ORDER BY语句

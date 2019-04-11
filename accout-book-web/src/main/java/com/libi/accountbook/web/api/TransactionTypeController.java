@@ -7,6 +7,7 @@ import com.libi.accountbook.entity.AccTransactionType;
 import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.TransactionTypeService;
+import com.libi.accountbook.web.anno.CheckToken;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +33,9 @@ public class TransactionTypeController extends BaseController implements BaseAtt
     private TransactionTypeService transactionTypeService;
 
     @Override
+    @CheckToken
     @RequestMapping("/create")
-    public ResponseDto create(TransactionTypeDto transactionTypeDto,HttpServletRequest request) throws ParamNotFindException {
+    public ResponseDto create(TransactionTypeDto transactionTypeDto,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (transactionTypeDto.getTypeName() == null) {
             notFindParams.add("typeName");
         }
@@ -46,8 +49,9 @@ public class TransactionTypeController extends BaseController implements BaseAtt
     }
 
     @Override
+    @CheckToken
     @RequestMapping("/update")
-    public ResponseDto update(TransactionTypeDto transactionTypeDto,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
+    public ResponseDto update(TransactionTypeDto transactionTypeDto,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException, AttrNotLoginUserException {
         if (transactionTypeDto.getId() == null) {
             notFindParams.add("id");
         }
@@ -56,11 +60,12 @@ public class TransactionTypeController extends BaseController implements BaseAtt
     }
 
     @Override
+    @CheckToken
     @RequestMapping("/getAll")
     /**
      * 现在这个方法只能最多两层分类
      */
-    public ResponseDto getAll() {
+    public ResponseDto getAll(HttpServletRequest request, HttpServletResponse response) {
         List<AccTransactionType> resultList = transactionTypeService.selectAll(getLoginUser().getId());
         List<TransactionTypeDto> dtoList = new ArrayList<>();
         //装入所有的父节点,并且在结果集合去掉父节点
@@ -85,9 +90,10 @@ public class TransactionTypeController extends BaseController implements BaseAtt
     }
 
     @Override
+    @CheckToken
     @RequestMapping("/getAllPage")
     public ResponseDto getAllByPage(@RequestParam(defaultValue = "30") Integer rows,
-                                    @RequestParam(defaultValue = "1")  Integer page,HttpServletRequest request) throws ParamNotFindException {
+                                    @RequestParam(defaultValue = "1")  Integer page,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (rows == null || rows <= 0) {
             notFindParams.add("rows");
         }
@@ -99,8 +105,9 @@ public class TransactionTypeController extends BaseController implements BaseAtt
     }
 
     @GetMapping("/delete")
+    @CheckToken
     @Override
-    public ResponseDto deleteById(@RequestParam Long id) throws AttrNotLoginUserException {
+    public ResponseDto deleteById(@RequestParam Long id,HttpServletRequest request, HttpServletResponse response) throws AttrNotLoginUserException {
         return new ResponseDto(0, "删除成功", transactionTypeService.deleteById(id, getLoginUser().getId()));
     }
 }

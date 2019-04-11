@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -96,14 +97,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
             @Override
             public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                if (httpServletRequest.getCookies() != null && httpServletRequest.getCookies().length > 0) {
-                    logger.info("未登录的cookie:" + httpServletRequest.getCookies()[0].getName() + ":" + httpServletRequest.getCookies()[0].getValue());
-                }
                 logger.info("未登录访问的URI：" + httpServletRequest.getRequestURI() + " 方法：" + httpServletRequest.getMethod());
+                if (httpServletRequest.getCookies() != null && httpServletRequest.getCookies().length > 0) {
+                    for (Cookie cookie : httpServletRequest.getCookies()) {
+                        logger.info("未登录的cookie:" + cookie.getName() + ":" + cookie.getValue());
+                    }
+                }
                 httpServletResponse.setContentType("application/json;charset=utf-8");
                 PrintWriter out = httpServletResponse.getWriter();
-                String sb = "{\"code\":10002,\"message\":\"未登录\",\"data\":null}";
-                out.write(sb);
+                String string = "{\"code\":10002,\"message\":\"未登录\",\"data\":null}";
+                out.write(string);
                 out.flush();
                 out.close();
             }

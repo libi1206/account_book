@@ -7,11 +7,13 @@ import com.libi.accountbook.entity.AccFamily;
 import com.libi.accountbook.exception.AttrNotLoginUserException;
 import com.libi.accountbook.exception.ParamNotFindException;
 import com.libi.accountbook.service.FamilyService;
+import com.libi.accountbook.web.anno.CheckToken;
 import com.libi.accountbook.web.api.base.BaseAttrController;
 import com.libi.accountbook.web.api.base.BaseController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static com.libi.accountbook.web.constant.UrlConst.FAMILY_ROOT;
 /**
@@ -24,8 +26,9 @@ public class FamilyController extends BaseController implements BaseAttrControll
     private FamilyService familyService;
 
     @Override
+    @CheckToken
     @PostMapping("/create")
-    public ResponseDto create(FamilyDto familyDto,HttpServletRequest request) throws ParamNotFindException {
+    public ResponseDto create(FamilyDto familyDto,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (familyDto.getFamilyName() == null) {
             notFindParams.add("familyName");
         }
@@ -36,8 +39,9 @@ public class FamilyController extends BaseController implements BaseAttrControll
     }
 
     @Override
+    @CheckToken
     @PostMapping("/update")
-    public ResponseDto update(FamilyDto familyDto,HttpServletRequest request) throws ParamNotFindException, AttrNotLoginUserException {
+    public ResponseDto update(FamilyDto familyDto,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException, AttrNotLoginUserException {
         if (familyDto.getId() == null) {
             notFindParams.add("id");
         }
@@ -47,15 +51,17 @@ public class FamilyController extends BaseController implements BaseAttrControll
     }
 
     @Override
+    @CheckToken
     @GetMapping("/getAll")
-    public ResponseDto getAll() {
+    public ResponseDto getAll(HttpServletRequest request, HttpServletResponse response) {
         return new ResponseDto(0,"查询成功",familyService.selectAll(getLoginUser().getId()));
     }
 
     @Override
+    @CheckToken
     @RequestMapping("/getAllPage")
     public ResponseDto getAllByPage(@RequestParam(defaultValue = "30")Integer rows,
-                                    @RequestParam(defaultValue = "1") Integer page,HttpServletRequest request) throws ParamNotFindException {
+                                    @RequestParam(defaultValue = "1") Integer page,HttpServletRequest request, HttpServletResponse response) throws ParamNotFindException {
         if (rows == null || rows <= 0) {
             notFindParams.add("rows");
         }
@@ -73,7 +79,7 @@ public class FamilyController extends BaseController implements BaseAttrControll
      * @throws AttrNotLoginUserException
      */
     @Override
-    public ResponseDto deleteById(Long id) throws AttrNotLoginUserException {
+    public ResponseDto deleteById(Long id,HttpServletRequest request, HttpServletResponse response) throws AttrNotLoginUserException {
         return null;
     }
 
@@ -83,6 +89,7 @@ public class FamilyController extends BaseController implements BaseAttrControll
      * @return
      */
     @GetMapping("/join")
+    @CheckToken
     public ResponseDto joinFamily(@RequestParam Long familyId) {
         if (familyId == null) {
             notFindParams.add("familyId");
@@ -96,6 +103,7 @@ public class FamilyController extends BaseController implements BaseAttrControll
      * @return
      */
     @GetMapping("/quit")
+    @CheckToken
     public ResponseDto quitFamily(@RequestParam Long familyId) {
         if (familyId == null) {
             notFindParams.add("familyId");
@@ -104,6 +112,7 @@ public class FamilyController extends BaseController implements BaseAttrControll
     }
 
     @GetMapping("/getUser")
+    @CheckToken
     public ResponseDto getAllUser(@RequestParam Long familyId) {
         if (familyId == null) {
              notFindParams.add("familyId");

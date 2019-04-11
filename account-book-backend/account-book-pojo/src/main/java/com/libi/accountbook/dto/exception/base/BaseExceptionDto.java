@@ -19,8 +19,10 @@ public class BaseExceptionDto implements Serializable {
     }
 
     public BaseExceptionDto(BaseException e) {
-        setUri(e.getUri());
-        setCurrentTime(e.getCurrentTime());
+        if (e != null) {
+            setUri(e.getUri());
+            setCurrentTime(e.getCurrentTime());
+        }
     }
 
     public BaseExceptionDto() {

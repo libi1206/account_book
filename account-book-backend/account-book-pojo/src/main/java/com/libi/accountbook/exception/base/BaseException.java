@@ -7,7 +7,7 @@ public class BaseException extends Exception {
     private String uri;
     private Long currentTime;
 
-    public BaseException(String uri, Long currentTime, String message) {
+    public BaseException(String uri, Long currentTime) {
         this.uri = uri;
         this.currentTime = currentTime;
     }

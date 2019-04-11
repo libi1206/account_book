@@ -97,6 +97,8 @@ java -jar xxx.jar
         <artifactId>spring-session-data-redis</artifactId>
     </dependency>
     ```
+* ~~Token登出不会失效~~
+    * 登出时删掉对应的Cookie
     
  ### 5. 架构上需要改进的问题
 正常的编码是7成时间用在架构和分析需求上，3成的时间用在编码上。由于我经验不足，经过草草沟通和分析就开始编码，这导致了我在代码的一致性和整洁上做的不够.具体的问题体现在下面的方面

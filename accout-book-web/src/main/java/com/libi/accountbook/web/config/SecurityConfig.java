@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //设置登出
                 .and().logout().logoutUrl(LOGOUT_URL)
                 .logoutSuccessUrl(LOGOUT_SUCCESS_URL)
-                .deleteCookies("JSESSIONID")
+                .deleteCookies("JSESSIONID","SESSION","TokenLogin")
                 //设置拒绝时候的url
                 .and().exceptionHandling().accessDeniedPage("/error/403")
                 //设置未登录的操作

@@ -48,7 +48,7 @@ public class LoginController extends BaseController {
         //生成token
         String token = UUID.randomUUID().toString();
         //token存在Redis里,键值对是Id，token
-        redisUtil.setString(getLoginUser().getId().toString(), token);
+        redisUtil.setString(getLoginUser().getId().toString(), token, cookieTimeout);
         //token通过Cookie返回
         Cookie cookie = new Cookie("TokenLogin", token);
         cookie.setPath("/");

@@ -155,6 +155,7 @@ public class RecordServiceImpl implements RecordService {
         PageInfo<AccTransactionRecord> pageInfo = new PageInfo<>(recordList);
 
 
+        //把Entity转化成Dto
         List<RecordDto> resultList = new ArrayList<>();
         for (AccTransactionRecord record : pageInfo.getList()) {
             resultList.add(recordEntityToDto(record));
